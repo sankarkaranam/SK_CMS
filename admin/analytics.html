@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link"><span class="admin-nav-icon">✏️</span> New Post</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link active"><span class="admin-nav-icon">📈</span> Analytics</a>
+      <a href="seo.html" class="admin-nav-link"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="admin-topbar-title">Performance &amp; Traffic Analytics</div>
+  </div>
+
+  <div class="admin-content">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">👁️</div>
+        <div class="stat-card-label">Total Impressions</div>
+        <div class="stat-card-value" id="an-views">0</div>
+        <div class="stat-card-sub">Recorded across all routes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">👏</div>
+        <div class="stat-card-label">Article Claps</div>
+        <div class="stat-card-value" id="an-claps">0</div>
+        <div class="stat-card-sub">Reader engagement</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">✉️</div>
+        <div class="stat-card-label">Newsletter Signups</div>
+        <div class="stat-card-value" id="an-subs">0</div>
+        <div class="stat-card-sub">Audience list</div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-8);">
+      <div class="admin-table-container">
+        <div class="admin-table-header"><div class="admin-table-title">Top Viewed Pages</div></div>
+        <table class="data-table">
+          <thead><tr><th>Page / Route</th><th>Views</th></tr></thead>
+          <tbody id="top-pages-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="admin-table-container">
+        <div class="admin-table-header"><div class="admin-table-title">Recent Event Telemetry</div></div>
+        <table class="data-table">
+          <thead><tr><th>Event</th><th>Label</th><th>Time</th></tr></thead>
+          <tbody id="events-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+  document.getElementById('logout-btn').onclick = () => { AdminAuth.logout(); window.location.href = 'login.html'; };
+
+  document.getElementById('an-views').textContent = CMS.Analytics.totalViews().toLocaleString();
+  const allPosts = CMS.Posts.all();
+  const totalClaps = allPosts.reduce((acc, p) => acc + (p.claps||0) + CMS.Reader.getClaps(p.id), 0);
+  document.getElementById('an-claps').textContent = totalClaps.toLocaleString();
+  document.getElementById('an-subs').textContent = CMS.Subscribers.all().length;
+
+  const topPages = CMS.Analytics.topPages(10);
+  const topTbody = document.getElementById('top-pages-tbody');
+  if (topPages.length === 0) {
+    topTbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:var(--space-6); color:var(--text-muted);">No pageview data recorded yet.</td></tr>';
+  } else {
+    topTbody.innerHTML = topPages.map(p => `<tr><td style="font-family:var(--font-mono); font-size:var(--text-xs); color:var(--text-primary);">${p.path}</td><td style="font-weight:700; color:var(--cobalt);">${p.views.toLocaleString()}</td></tr>`).join('');
+  }
+
+  const data = CMS.Analytics._data();
+  const events = (data.events || []).slice(-10).reverse();
+  const evTbody = document.getElementById('events-tbody');
+  if (events.length === 0) {
+    evTbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:var(--space-6); color:var(--text-muted);">No events recorded yet.</td></tr>';
+  } else {
+    evTbody.innerHTML = events.map(e => `<tr><td><span class="badge badge--blue">${e.type}</span></td><td>${e.label}</td><td style="font-size:var(--text-xs); color:var(--text-muted);">${new Date(e.ts).toLocaleTimeString()}</td></tr>`).join('');
+  }
+});
+</script>
+</body>
+</html>
+

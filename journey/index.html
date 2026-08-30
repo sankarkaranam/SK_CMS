@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Founder's Journey | Sankar Karanam — Timeline of Milestones</title>
+  <meta name="description" content="The complete entrepreneurial timeline of Sankar Karanam — from engineer to serial founder, cybersecurity author, and builder of multiple ventures.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sankarkaranam.com/journey/">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    .journey-hero { background: var(--bg-secondary); border-bottom: 1px solid var(--border-subtle); }
+    .journey-main-grid { display: grid; grid-template-columns: 1fr 360px; gap: var(--space-16); align-items: start; }
+    .journey-stat-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-6); position: sticky; top: calc(var(--nav-height) + var(--space-6)); }
+    .journey-stat-item { padding: var(--space-4) 0; border-bottom: 1px solid var(--border-subtle); }
+    .journey-stat-item:last-child { border-bottom: none; }
+    .journey-stat-label { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wider); color: var(--text-muted); margin-bottom: var(--space-2); }
+    .journey-stat-value { font-size: var(--text-2xl); font-weight: 800; font-family: var(--font-display); color: var(--text-primary); }
+    @media (max-width: 900px) { .journey-main-grid { grid-template-columns: 1fr; } .journey-stat-card { position: static; } }
+  </style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<main>
+  <section class="journey-hero section--sm">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Home</a><span class="breadcrumb-separator">/</span></div>
+        <div class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">Journey</span></div>
+      </nav>
+      <span class="section-eyebrow">Track Record</span>
+      <h1 class="section-title">A Decade of Building</h1>
+      <p class="section-subtitle">The exits, launches, books, and lessons from a founder who builds companies the way engineers build systems — with precision, iteration, and long-term thinking.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="journey-main-grid">
+        <div>
+          <div class="timeline" id="journey-timeline">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+        <div class="journey-stat-card">
+          <h2 style="font-size:var(--text-base); font-weight:800; margin-bottom:var(--space-5);">Quick Stats</h2>
+          <div class="journey-stat-item">
+            <div class="journey-stat-label">Ventures Founded</div>
+            <div class="journey-stat-value">4+</div>
+          </div>
+          <div class="journey-stat-item">
+            <div class="journey-stat-label">Published Books</div>
+            <div class="journey-stat-value">1</div>
+          </div>
+          <div class="journey-stat-item">
+            <div class="journey-stat-label">Years Building</div>
+            <div class="journey-stat-value">10+</div>
+          </div>
+          <div class="journey-stat-item">
+            <div class="journey-stat-label">Industries Touched</div>
+            <div class="journey-stat-value">6+</div>
+          </div>
+          <div style="margin-top:var(--space-6); padding-top:var(--space-5); border-top:1px solid var(--border-subtle)">
+            <img src="../assets/sankar.jpeg" alt="Sankar Karanam" style="width:100%; border-radius:var(--radius-xl); object-fit:cover; aspect-ratio:4/3; margin-bottom:var(--space-4);" loading="lazy">
+            <p style="font-size:var(--text-sm); color:var(--text-secondary); line-height:var(--leading-relaxed); font-style:italic">"Build slow, scale systems, compound daily."</p>
+            <p style="font-size:var(--text-xs); color:var(--text-muted); margin-top:var(--space-2);">— Sankar Karanam</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof CMS === 'undefined') return;
+  const timeline = document.getElementById('journey-timeline');
+  const items = CMS.Journey.ordered();
+  const CATEGORY_ICONS = { Founded: '🚀', Published: '📚', Career: '💼', Exited: '🏁', Award: '🏆', Milestone: '⭐' };
+  timeline.innerHTML = items.map(j => `
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">${j.year}</div>
+      <div class="timeline-card">
+        <div style="display:flex; align-items:center; gap:var(--space-3); margin-bottom:var(--space-3);">
+          <span style="font-size:1.25rem;">${CATEGORY_ICONS[j.category]||'⭐'}</span>
+          <span class="badge badge--blue">${j.category}</span>
+        </div>
+        <div class="timeline-title">${j.title}</div>
+        ${j.company ? `<div class="timeline-company">${j.company}</div>` : ''}
+        <p class="timeline-desc">${j.description}</p>
+        ${j.link ? `<a href="${j.link}" target="_blank" rel="noopener noreferrer" style="font-size:var(--text-sm);color:var(--cobalt);font-weight:600;margin-top:var(--space-3);display:inline-block;">Visit →</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+});
+</script>
+</body>
+</html>

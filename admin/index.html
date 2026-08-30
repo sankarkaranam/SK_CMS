@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<!-- Sidebar -->
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link active">
+        <span class="admin-nav-icon">📊</span> Dashboard
+      </a>
+      <a href="posts.html" class="admin-nav-link">
+        <span class="admin-nav-icon">📝</span> Posts
+        <span class="admin-nav-badge" id="nav-drafts-count">0</span>
+      </a>
+      <a href="editor.html" class="admin-nav-link">
+        <span class="admin-nav-icon">✏️</span> New Post
+        <span class="admin-nav-badge new">+</span>
+      </a>
+      <a href="ventures.html" class="admin-nav-link">
+        <span class="admin-nav-icon">🏢</span> Ventures
+      </a>
+      <a href="journey.html" class="admin-nav-link">
+        <span class="admin-nav-icon">🗓️</span> Journey
+      </a>
+      <a href="media-library.html" class="admin-nav-link">
+        <span class="admin-nav-icon">🖼️</span> Media Library
+      </a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link">
+        <span class="admin-nav-icon">✉️</span> Newsletter
+      </a>
+      <a href="contacts.html" class="admin-nav-link">
+        <span class="admin-nav-icon">📩</span> Contact Inbox
+        <span class="admin-nav-badge new" id="nav-unread-count">0</span>
+      </a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link">
+        <span class="admin-nav-icon">📈</span> Analytics
+      </a>
+      <a href="seo.html" class="admin-nav-link">
+        <span class="admin-nav-icon">🔍</span> SEO Settings
+      </a>
+      <a href="settings.html" class="admin-nav-link">
+        <span class="admin-nav-icon">⚙️</span> Site Settings
+      </a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn">
+      <span>🚪</span> Sign Out
+    </button>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div>
+      <div class="admin-topbar-title">Dashboard</div>
+    </div>
+    <div class="admin-topbar-actions">
+      <span id="session-time" style="font-size:var(--text-xs); color:var(--text-muted);"></span>
+      <a href="editor.html" class="btn btn--primary btn--sm">+ New Post</a>
+      <a href="../index.html" target="_blank" class="btn btn--secondary btn--sm">View Site →</a>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <!-- Welcome -->
+    <div style="margin-bottom:var(--space-8); padding: var(--space-6); background: linear-gradient(135deg, var(--cobalt-light), var(--bg-card)); border: 1px solid var(--cobalt-mid); border-radius: var(--radius-xl);">
+      <h2 style="font-size:var(--text-xl); font-weight:800; margin-bottom:var(--space-2);">Welcome back, Sankar 👋</h2>
+      <p style="font-size:var(--text-sm); color:var(--text-muted);">Your platform is live. Here's everything at a glance.</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">📝</div>
+        <div class="stat-card-label">Published Posts</div>
+        <div class="stat-card-value" id="stat-published">0</div>
+        <div class="stat-card-sub">Total articles live</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">📄</div>
+        <div class="stat-card-label">Drafts</div>
+        <div class="stat-card-value" id="stat-drafts">0</div>
+        <div class="stat-card-sub">Waiting to publish</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">✉️</div>
+        <div class="stat-card-label">Subscribers</div>
+        <div class="stat-card-value" id="stat-subscribers">0</div>
+        <div class="stat-card-sub">Newsletter readers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">📩</div>
+        <div class="stat-card-label">Contact Inbox</div>
+        <div class="stat-card-value" id="stat-contacts">0</div>
+        <div class="stat-card-sub"><span id="stat-unread">0</span> unread</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">👁️</div>
+        <div class="stat-card-label">Total Page Views</div>
+        <div class="stat-card-value" id="stat-views">0</div>
+        <div class="stat-card-sub">Since tracking started</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🏢</div>
+        <div class="stat-card-label">Active Ventures</div>
+        <div class="stat-card-value" id="stat-ventures">0</div>
+        <div class="stat-card-sub">In portfolio</div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:2fr 1fr; gap:var(--space-6); align-items:start;">
+
+      <!-- Recent Posts Table -->
+      <div class="admin-table-container">
+        <div class="admin-table-header">
+          <div class="admin-table-title">Recent Posts</div>
+          <div class="admin-table-actions">
+            <a href="posts.html" class="btn btn--ghost btn--sm">View All →</a>
+            <a href="editor.html" class="btn btn--primary btn--sm">+ New</a>
+          </div>
+        </div>
+        <table class="data-table" id="recent-posts-table">
+          <thead>
+            <tr><th>Title</th><th>Category</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="recent-posts-body">
+            <tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:var(--space-8)">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Quick Actions & SEO Checklist -->
+      <div style="display:flex; flex-direction:column; gap:var(--space-5);">
+
+        <!-- Quick Actions -->
+        <div class="admin-panel">
+          <div class="admin-panel-header">
+            <div class="admin-panel-title">Quick Actions</div>
+          </div>
+          <div class="admin-panel-body" style="display:flex; flex-direction:column; gap:var(--space-3);">
+            <a href="editor.html" class="btn btn--primary" style="width:100%;">✏️ Write New Post</a>
+            <a href="newsletter.html" class="btn btn--secondary" style="width:100%;">✉️ View Subscribers</a>
+            <a href="contacts.html" class="btn btn--secondary" style="width:100%;">📩 Check Contact Inbox</a>
+            <a href="settings.html" class="btn btn--secondary" style="width:100%;">⚙️ Site Settings</a>
+            <button class="btn btn--secondary" style="width:100%;" id="export-subscribers-btn">⬇️ Export Subscribers CSV</button>
+            <button class="btn btn--secondary" style="width:100%;" id="generate-rss-btn">📡 Regenerate RSS Feed</button>
+          </div>
+        </div>
+
+        <!-- Site Health -->
+        <div class="admin-panel">
+          <div class="admin-panel-header">
+            <div class="admin-panel-title">Site Health</div>
+          </div>
+          <div class="admin-panel-body seo-checks" id="site-health-checks">
+            <div class="seo-check" id="hc-settings">
+              <span class="seo-check-icon">⏳</span>
+              <span>Site settings configured</span>
+            </div>
+            <div class="seo-check" id="hc-og-image">
+              <span class="seo-check-icon">⏳</span>
+              <span>Default OG image set</span>
+            </div>
+            <div class="seo-check" id="hc-posts">
+              <span class="seo-check-icon">⏳</span>
+              <span>At least 1 published post</span>
+            </div>
+            <div class="seo-check" id="hc-subscribers">
+              <span class="seo-check-icon">⏳</span>
+              <span>Newsletter subscribers</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Pages -->
+        <div class="admin-panel">
+          <div class="admin-panel-header">
+            <div class="admin-panel-title">Top Pages</div>
+          </div>
+          <div class="admin-panel-body" id="top-pages-list" style="display:flex; flex-direction:column; gap:var(--space-3);">
+            <p style="font-size:var(--text-xs); color:var(--text-muted)">No page view data yet. Data builds as visitors browse.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+
+  // Session time
+  const session = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+  if (session) {
+    const exp = new Date(session.expiresAt);
+    document.getElementById('session-time').textContent = `Session expires: ${exp.toLocaleTimeString()}`;
+  }
+
+  // Logout
+  document.getElementById('logout-btn')?.addEventListener('click', () => {
+    AdminAuth.logout();
+    window.location.href = 'login.html';
+  });
+
+  // Stats
+  const [posts, subscribers, contacts, ventures, analytics] = await Promise.all([
+    CMS.Posts.fetchAll(),
+    CMS.Subscribers.fetchAll(),
+    CMS.Contacts.fetchAll(),
+    CMS.Ventures.fetchAll(),
+    CMS.Analytics.fetch()
+  ]);
+
+  const published = (posts || []).filter(p => p.status === 'published');
+  const drafts = (posts || []).filter(p => p.status === 'draft');
+  const unread = (contacts || []).filter(c => !c.read).length;
+  const activeVentures = (ventures || []).filter(v => v.status !== 'archived');
+  
+  let totalViews = 0;
+  if (analytics && analytics.pageViews) {
+    Object.values(analytics.pageViews).forEach(v => { totalViews += Number(v) || 0; });
+  }
+
+  document.getElementById('stat-published').textContent = published.length;
+  document.getElementById('stat-drafts').textContent = drafts.length;
+  document.getElementById('stat-subscribers').textContent = (subscribers || []).length;
+  document.getElementById('stat-contacts').textContent = (contacts || []).length;
+  document.getElementById('stat-unread').textContent = unread;
+  document.getElementById('stat-views').textContent = totalViews.toLocaleString();
+  document.getElementById('stat-ventures').textContent = activeVentures.length;
+  document.getElementById('nav-drafts-count').textContent = drafts.length;
+  document.getElementById('nav-unread-count').textContent = unread;
+
+  // Recent Posts Table
+  const tbody = document.getElementById('recent-posts-body');
+  const recent = (posts || []).sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 8);
+  if (recent.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:var(--space-8)">No posts yet. <a href="editor.html" style="color:var(--cobalt)">Write your first post →</a></td></tr>';
+  } else {
+    tbody.innerHTML = recent.map(p => `
+      <tr>
+        <td class="td-title" title="${CMS.utils.escapeHTML(p.title)}">${p.title.length > 50 ? CMS.utils.escapeHTML(p.title.slice(0,50))+'…' : CMS.utils.escapeHTML(p.title)}</td>
+        <td><span class="badge badge--blue">${CMS.utils.escapeHTML(p.category)}</span></td>
+        <td><span class="badge badge--${p.status==='published'?'green':p.status==='draft'?'amber':'slate'} badge--dot">${CMS.utils.escapeHTML(p.status)}</span></td>
+        <td>${new Date(p.updatedAt).toLocaleDateString('en-IN')}</td>
+        <td class="td-actions">
+          <a href="editor.html?id=${CMS.utils.escapeHTML(p.id)}" class="action-btn action-btn--edit">Edit</a>
+          <a href="../journal/${CMS.utils.escapeHTML(p.slug)}.html" target="_blank" class="action-btn action-btn--view">View</a>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Site Health
+  const settings = CMS.Settings.get();
+  function setCheck(id, pass) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('pass', pass);
+    el.classList.toggle('fail', !pass);
+    el.querySelector('.seo-check-icon').textContent = pass ? '✓' : '✕';
+  }
+  setCheck('hc-settings', !!(settings.founderName && settings.siteDescription));
+  setCheck('hc-og-image', !!settings.defaultOgImage);
+  setCheck('hc-posts', published.length > 0);
+  setCheck('hc-subscribers', subscribers.length > 0);
+
+  // Top Pages
+  const topPages = CMS.Analytics.topPages(5);
+  const topPagesEl = document.getElementById('top-pages-list');
+  if (topPages.length > 0) {
+    topPagesEl.innerHTML = topPages.map(p => `
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:var(--text-xs);">
+        <span style="color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:200px;">${p.path}</span>
+        <span style="font-weight:700; color:var(--cobalt);">${p.views.toLocaleString()}</span>
+      </div>
+    `).join('');
+  }
+
+  // Export CSV
+  document.getElementById('export-subscribers-btn')?.addEventListener('click', () => {
+    const csv = CMS.Subscribers.exportCSV();
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `subscribers-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Regenerate RSS
+  document.getElementById('generate-rss-btn')?.addEventListener('click', () => {
+    const posts = CMS.Posts.published();
+    const settings = CMS.Settings.get();
+    const items = posts.slice(0, 20).map(p => `
+    <item>
+      <title><![CDATA[${p.title}]]></title>
+      <link>https://sankarkaranam.com/journal/${p.slug}.html</link>
+      <guid isPermaLink="true">https://sankarkaranam.com/journal/${p.slug}.html</guid>
+      <pubDate>${new Date(p.publishedAt).toUTCString()}</pubDate>
+      <description><![CDATA[${p.excerpt}]]></description>
+      <category>${p.category}</category>
+    </item>`).join('');
+    const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${settings.siteTitle} — Journal</title>
+    <link>https://sankarkaranam.com/journal/</link>
+    <description>${settings.siteDescription}</description>
+    <language>en-IN</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <atom:link href="https://sankarkaranam.com/rss.xml" rel="self" type="application/rss+xml"/>
+    ${items}
+  </channel>
+</rss>`;
+    const blob = new Blob([rss], { type: 'application/rss+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rss.xml';
+    a.click();
+    URL.revokeObjectURL(url);
+    alert('rss.xml downloaded. Place it in your site root folder to update the RSS feed.');
+  });
+
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,455 @@
+﻿{
+    "users":  [
+                  {
+                      "id":  "usr_sankar_admin",
+                      "username":  "admin",
+                      "email":  "sankarkaranam7@gmail.com",
+                      "name":  "Sankar Karanam",
+                      "role":  "admin",
+                      "passwordHash":  "O8Y3CGh8eMhNRbzYM8XRtB+ZPQb7BT7TlBLrwN0r7rQ=",
+                      "salt":  "random_salt_123",
+                      "createdAt":  "2026-08-30T12:00:00.000Z"
+                  }
+              ],
+    "sessions":  [
+                     {
+                         "createdAt":  "2026-08-30T17:32:07.7497378Z",
+                         "expiresAt":  "2026-08-31T01:32:07.7497378Z",
+                         "userId":  "usr_sankar_admin",
+                         "token":  "tgtPIHwiNH-eCF-7SKKN0BN4BCiRAE7fiGKZtMrsO98",
+                         "role":  "admin"
+                     },
+                     {
+                         "createdAt":  "2026-08-30T17:32:14.4003721Z",
+                         "expiresAt":  "2026-08-31T01:32:14.4003721Z",
+                         "userId":  "usr_sankar_admin",
+                         "token":  "grhMOqXrgHK4wJZ_K8k3tMfGynV1esCIpZr3h_zWww4",
+                         "role":  "admin"
+                     },
+                     {
+                         "createdAt":  "2026-08-30T17:32:23.8477787Z",
+                         "expiresAt":  "2026-08-31T01:32:23.8477787Z",
+                         "userId":  "usr_sankar_admin",
+                         "token":  "F1TN4WBpTq3KVw0V3wD1xkO_zDarug-6I-ANaB3hUbI",
+                         "role":  "admin"
+                     },
+                     {
+                         "createdAt":  "2026-08-30T17:32:57.3120969Z",
+                         "expiresAt":  "2026-08-31T01:32:57.3120969Z",
+                         "userId":  "usr_sankar_admin",
+                         "token":  "AE2QucHX7ypGlYA1qxYi2D043dbbh-IU9BhUa_q6ZcE",
+                         "role":  "admin"
+                     }
+                 ],
+    "posts":  [
+                  {
+                      "views":  0,
+                      "id":  "post_d61bd2354d",
+                      "updatedAt":  "2026-08-30T17:32:14.6806982Z",
+                      "revisions":  [
+
+                                    ],
+                      "title":  "The Architecture of Asymmetric Upside: Why I Build Multiple Ventures in Parallel",
+                      "content":  "\u003ch3\u003eThe Fallacy of Single-Threaded Focus\u003c/h3\u003e\u003cp\u003eWhen you build software companies in 2026, shared infrastructure, centralized AI pipelines, and unified media engines allow a single operational core to power multiple high-margin cash-flowing entities.\u003c/p\u003e\u003cp\u003eThrough \u003cstrong\u003eOruMind\u003c/strong\u003e, we build high-leverage software architectures that power our other ventures like \u003cstrong\u003eCreators Club\u003c/strong\u003e and \u003cstrong\u003eWorke\u003c/strong\u003e.\u003c/p\u003e",
+                      "createdAt":  "2026-08-30T17:32:14.6806982Z",
+                      "publishedAt":  "2026-08-30T17:32:14.6754126Z",
+                      "status":  "published",
+                      "canonical":  "https://sankarkaranam.com/journal/asymmetric-upside-parallel-ventures.html",
+                      "claps":  0,
+                      "seoTitle":  "The Architecture of Asymmetric Upside | Sankar Karanam",
+                      "excerpt":  "Conventional wisdom warns founders never to split focus. Here is the operational framework and holding structure I use to run OruMind, Creators Club, and Worke simultaneously.",
+                      "tags":  [
+                                   "entrepreneurship",
+                                   "ventures",
+                                   "systems"
+                               ],
+                      "featuredImage":  null,
+                      "subtitle":  "Conventional wisdom warns founders never to split focus. Here is the operational framework and holding structure I use to run OruMind, Creators Club, and Worke simultaneously.",
+                      "readTime":  "6 min read",
+                      "slug":  "asymmetric-upside-parallel-ventures",
+                      "seoDescription":  "Operational framework for running multiple high-conviction ventures in parallel.",
+                      "category":  "Entrepreneurship"
+                  },
+                  {
+                      "id":  "daily-growth-habit-stacking",
+                      "title":  "How Habit Stacking Compounds Your Growth by 1% Every Single Day",
+                      "subtitle":  "Most people fail at building transformative habits because they rely on willpower. Here is the friction-reducing blueprint I use to stack daily wins across health, business, and mindset.",
+                      "slug":  "how-habit-stacking-compounds-growth",
+                      "excerpt":  "Most people fail at building transformative habits because they rely on willpower. Here is the friction-reducing blueprint I use to stack daily wins across health, business, and mindset.",
+                      "content":  "\u003ch3\u003eThe Mathematics of Compounding Small Wins\u003c/h3\u003e\u003cp\u003eWhen you improve by just \u003cstrong\u003e1% each day\u003c/strong\u003e for an entire year, you end up \u003cstrong\u003e37.78 times better\u003c/strong\u003e by the time you\u0027re done. Conversely, if you decline by 1% each day, you decline nearly to zero.\u003c/p\u003e\u003cp\u003eAs a founder managing multiple ventures like \u003cem\u003eOruMind\u003c/em\u003e and \u003cem\u003eCreators Club\u003c/em\u003e, the temptation to search for giant 10x overnight leaps is always present. But sustainable scalability is almost always the consequence of stacking small, non-negotiable daily micro-habits.\u003c/p\u003e\u003ch3\u003eThe 3-Step Habit Stacking Formula\u003c/h3\u003e\u003col\u003e\u003cli\u003e\u003cstrong\u003eAnchor to an Existing Trigger:\u003c/strong\u003e Never start a habit in a vacuum. Connect it to an automatic routine: \u003cem\u003e\"After I brew my morning black coffee, I will write 250 words of my daily insight.\"\u003c/em\u003e\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eLower Activation Energy:\u003c/strong\u003e If a habit takes more than 2 minutes to start, procrastination will exploit the resistance. Keep the starting friction at absolute zero.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eImmediate Visual Feedback:\u003c/strong\u003e Track your streak visually. The brain seeks dopamine through progress acknowledgment.\u003c/li\u003e\u003c/ol\u003e\u003cdiv class=\"article-callout\"\u003e\u003cspan class=\"callout-icon\"\u003e💡\u003c/span\u003e\u003cdiv\u003e\u003cstrong\u003eFounder Takeaway:\u003c/strong\u003e Audit your current day. Pick one high-leverage friction point in your business or health and eliminate 1% of the friction before tomorrow morning.\u003c/div\u003e\u003c/div\u003e",
+                      "category":  "1% Daily Growth",
+                      "tags":  [
+                                   "growth",
+                                   "habits",
+                                   "productivity"
+                               ],
+                      "status":  "published",
+                      "featuredImage":  "",
+                      "seoTitle":  "How Habit Stacking Compounds Your Growth by 1% Every Single Day",
+                      "seoDescription":  "Most people fail at building transformative habits because they rely on willpower. Here is the friction-reducing blueprint I use to stack daily wins across health, business, and mindset.",
+                      "canonical":  "https://sankarkaranam.com/journal/how-habit-stacking-compounds-growth.html",
+                      "publishedAt":  "2026-08-30T04:30:00.000Z",
+                      "updatedAt":  "2026-08-30T12:00:00.000Z",
+                      "createdAt":  "2026-08-30T04:30:00.000Z",
+                      "readTime":  "4 min read",
+                      "claps":  142,
+                      "views":  418,
+                      "revisions":  [
+
+                                    ]
+                  },
+                  {
+                      "id":  "ai-workflows-for-founders",
+                      "title":  "The Zero-BS Guide to Integrating Generative AI into Your Agency Workflow",
+                      "subtitle":  "Why 80% of businesses misuse AI as a generic copy-paster rather than an operational multiplier. How we engineer prompt-to-production pipelines at Creators Club.",
+                      "slug":  "ai-workflows-agency-founders",
+                      "excerpt":  "Why 80% of businesses misuse AI as a generic copy-paster rather than an operational multiplier. How we engineer prompt-to-production pipelines at Creators Club.",
+                      "content":  "\u003ch3\u003eMoving Beyond the Novelty Phase\u003c/h3\u003e\u003cp\u003eWhen ChatGPT and modern LLMs arrived, most agencies treated them as fast paragraph generators. The result? Generic, uninspired content that failed to build authentic brand trust.\u003c/p\u003e\u003cp\u003eThrough our intelligent software initiative at \u003cstrong\u003eOruMind\u003c/strong\u003e, our philosophy is clear: AI is not a writer; it is an analytical copilot, research synthesizer, and execution accelerator.\u003c/p\u003e\u003ch3\u003eOur 4-Stage Content Engine at Creators Club\u003c/h3\u003e\u003cul\u003e\u003cli\u003e\u003cstrong\u003eStage 1: Raw Idea Ingestion:\u003c/strong\u003e Voice notes and rough brainstorms from the founder are captured into structured transcripts.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eStage 2: AI Structural Framing:\u003c/strong\u003e Multi-shot prompting transforms stream-of-consciousness thoughts into clear hooks, theses, and frameworks.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eStage 3: Human Expertise \u0026 Tone Layer:\u003c/strong\u003e The founder injects real case studies, specific metrics, and personal vulnerability that no LLM can simulate.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eStage 4: Automated Omnichannel Formatting:\u003c/strong\u003e The master insight is formatted for LinkedIn carousels, X threads, YouTube scripts, and SEO blog articles.\u003c/li\u003e\u003c/ul\u003e",
+                      "category":  "AI \u0026 Tech",
+                      "tags":  [
+                                   "ai",
+                                   "automation",
+                                   "agency"
+                               ],
+                      "status":  "published",
+                      "featuredImage":  "",
+                      "seoTitle":  "The Zero-BS Guide to Integrating Generative AI into Your Agency Workflow",
+                      "seoDescription":  "Why 80% of businesses misuse AI as a generic copy-paster rather than an operational multiplier. How we engineer prompt-to-production pipelines at Creators Club.",
+                      "canonical":  "https://sankarkaranam.com/journal/ai-workflows-agency-founders.html",
+                      "publishedAt":  "2026-08-29T04:30:00.000Z",
+                      "updatedAt":  "2026-08-29T12:00:00.000Z",
+                      "createdAt":  "2026-08-29T04:30:00.000Z",
+                      "readTime":  "6 min read",
+                      "claps":  238,
+                      "views":  589,
+                      "revisions":  [
+
+                                    ]
+                  },
+                  {
+                      "id":  "zero-trust-architecture-startups",
+                      "title":  "Zero Trust Security for Early-Stage Tech Startups: Don\u0027t Wait for a Breach",
+                      "subtitle":  "From my background in ethical hacking and leading cybersecurity initiatives at Racnas Infotech, here are the non-negotiable security postures every startup must adopt from Day 1.",
+                      "slug":  "zero-trust-security-startups",
+                      "excerpt":  "From my background in ethical hacking and leading cybersecurity initiatives at Racnas Infotech, here are the non-negotiable security postures every startup must adopt from Day 1.",
+                      "content":  "\u003ch3\u003eThe High Cost of \u0027We Are Too Small to Be Targeted\u0027\u003c/h3\u003e\u003cp\u003eIn cybersecurity, automated bots do not care about your valuation or headcount. They scan the public internet 24/7 for exposed API keys, default credentials, and unpatched dependencies.\u003c/p\u003e\u003cp\u003eHaving authored an \u003cem\u003eEthical Hacking\u003c/em\u003e book and consulted for numerous web platforms, I\u0027ve observed that 90% of breaches exploit basic hygiene failures rather than complex zero-day vulnerabilities.\u003c/p\u003e\u003ch3\u003eThe 5-Point Early Security Checklist\u003c/h3\u003e\u003col\u003e\u003cli\u003e\u003cstrong\u003eStrict Principle of Least Privilege (PoLP):\u003c/strong\u003e Developers should only have access to production databases via ephemeral, logged access tokens.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eHardware-backed 2FA Everywhere:\u003c/strong\u003e SMS-based 2FA is vulnerable to SIM swapping. Enforce WebAuthn / FIDO2 or authenticator apps.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eAutomated Dependency Vulnerability Scans:\u003c/strong\u003e Integrate automated CI/CD checks like Snyk or GitHub Dependabot.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eEnvironment Secrets Isolation:\u003c/strong\u003e Never commit \u003ccode\u003e.env\u003c/code\u003e files or hardcoded credentials into code repositories.\u003c/li\u003e\u003c/ol\u003e",
+                      "category":  "Cybersecurity",
+                      "tags":  [
+                                   "security",
+                                   "zerotrust",
+                                   "startups"
+                               ],
+                      "status":  "published",
+                      "featuredImage":  "",
+                      "seoTitle":  "Zero Trust Security for Early-Stage Tech Startups: Don\u0027t Wait for a Breach",
+                      "seoDescription":  "From my background in ethical hacking and leading cybersecurity initiatives at Racnas Infotech, here are the non-negotiable security postures every startup must adopt from Day 1.",
+                      "canonical":  "https://sankarkaranam.com/journal/zero-trust-security-startups.html",
+                      "publishedAt":  "2026-08-28T04:30:00.000Z",
+                      "updatedAt":  "2026-08-28T12:00:00.000Z",
+                      "createdAt":  "2026-08-28T04:30:00.000Z",
+                      "readTime":  "5 min read",
+                      "claps":  185,
+                      "views":  340,
+                      "revisions":  [
+
+                                    ]
+                  },
+                  {
+                      "id":  "content-to-revenue-pipeline",
+                      "title":  "From Views to Revenue: The Content Engine Framework for B2B Founders",
+                      "subtitle":  "High follower counts don\u0027t pay payroll. Discover the exact pipeline we use to turn educational video content and articles into high-ticket enterprise contracts.",
+                      "slug":  "content-to-revenue-pipeline-b2b",
+                      "excerpt":  "High follower counts don\u0027t pay payroll. Discover the exact pipeline we use to turn educational video content and articles into high-ticket enterprise contracts.",
+                      "content":  "\u003ch3\u003eWhy Most Founder Content Fails to Generate Leads\u003c/h3\u003e\u003cp\u003eToo many founders create generic motivational posts that attract spectators instead of decision-makers. If your content doesn\u0027t demonstrate specific domain mastery and tangible business outcomes, you are creating noise, not value.\u003c/p\u003e\u003cp\u003eAt \u003cstrong\u003eOruMind\u003c/strong\u003e and \u003cstrong\u003eCreators Club\u003c/strong\u003e, we build high-converting content funnels centered around \u003cem\u003eProof of Competence\u003c/em\u003e.\u003c/p\u003e\u003ch3\u003eThe 3 Core Content Archetypes\u003c/h3\u003e\u003cul\u003e\u003cli\u003e\u003cstrong\u003e1. The Breakdown Post:\u003c/strong\u003e Deconstruct a real client turnaround with before/after numbers and strategic decisions made.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003e2. The Contrarian Framework:\u003c/strong\u003e Challenge a common, inefficient industry practice with a better alternative model.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003e3. The Actionable Playbook:\u003c/strong\u003e Give away your step-by-step SOP so thoroughly that people hire you simply for execution speed.\u003c/li\u003e\u003c/ul\u003e",
+                      "category":  "Content Creation",
+                      "tags":  [
+                                   "content",
+                                   "b2b",
+                                   "revenue"
+                               ],
+                      "status":  "published",
+                      "featuredImage":  "",
+                      "seoTitle":  "From Views to Revenue: The Content Engine Framework for B2B Founders",
+                      "seoDescription":  "High follower counts don\u0027t pay payroll. Discover the exact pipeline we use to turn educational video content and articles into high-ticket enterprise contracts.",
+                      "canonical":  "https://sankarkaranam.com/journal/content-to-revenue-pipeline-b2b.html",
+                      "publishedAt":  "2026-08-27T04:30:00.000Z",
+                      "updatedAt":  "2026-08-27T12:00:00.000Z",
+                      "createdAt":  "2026-08-27T04:30:00.000Z",
+                      "readTime":  "5 min read",
+                      "claps":  310,
+                      "views":  820,
+                      "revisions":  [
+
+                                    ]
+                  },
+                  {
+                      "id":  "lessons-from-failure-and-resilience",
+                      "title":  "What Shutting Down a Startup Taught Me About Relentless Founder Resilience",
+                      "subtitle":  "Navigating the COVID-19 shutdown of Freshtacular Bio was one of the hardest chapters of my entrepreneurial life. Here is the raw truth about founder psychology and building back stronger.",
+                      "slug":  "startup-shutdown-founder-resilience",
+                      "excerpt":  "Navigating the COVID-19 shutdown of Freshtacular Bio was one of the hardest chapters of my entrepreneurial life. Here is the raw truth about founder psychology and building back stronger.",
+                      "content":  "\u003ch3\u003eThe Sudden Shockwave\u003c/h3\u003e\u003cp\u003eWhen we launched Freshtacular Bio as one of India\u0027s earliest online fresh meat delivery startups, the growth trajectory was exhilarating. We had built supply chain networks, customer loyalty, and daily repeat orders.\u003c/p\u003e\u003cp\u003eThen the COVID-19 pandemic swept in, disrupting physical logistics and supply chains overnight. Despite exhausting every pivot, we had to make the painful decision to close operations.\u003c/p\u003e\u003ch3\u003eThe Real Lessons That Shaped OruMind\u003c/h3\u003e\u003cp\u003eFailure forces you to strip away ego and inspect business fundamentals with brutal honesty:\u003c/p\u003e\u003cul\u003e\u003cli\u003e\u003cstrong\u003eCapital Efficiency over Vanity Growth:\u003c/strong\u003e Unit economics must be resilient in times of volatility, not just during bull runs.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eOperational Agility:\u003c/strong\u003e The ability to reallocate team skillsets within 48 hours is the ultimate hedge against macro disruption.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eThe 1% Daily Rebuilding Mindset:\u003c/strong\u003e When everything crashes, you don\u0027t rebuild the entire skyscraper in a day. You lay one perfect brick every morning.\u003c/li\u003e\u003c/ul\u003e",
+                      "category":  "Entrepreneurship",
+                      "tags":  [
+                                   "founder",
+                                   "lessons",
+                                   "resilience"
+                               ],
+                      "status":  "published",
+                      "featuredImage":  "",
+                      "seoTitle":  "What Shutting Down a Startup Taught Me About Relentless Founder Resilience",
+                      "seoDescription":  "Navigating the COVID-19 shutdown of Freshtacular Bio was one of the hardest chapters of my entrepreneurial life. Here is the raw truth about founder psychology and building back stronger.",
+                      "canonical":  "https://sankarkaranam.com/journal/startup-shutdown-founder-resilience.html",
+                      "publishedAt":  "2026-08-25T04:30:00.000Z",
+                      "updatedAt":  "2026-08-25T12:00:00.000Z",
+                      "createdAt":  "2026-08-25T04:30:00.000Z",
+                      "readTime":  "7 min read",
+                      "claps":  412,
+                      "views":  1050,
+                      "revisions":  [
+
+                                    ]
+                  }
+              ],
+    "ventures":  [
+                     {
+                         "id":  "v_orumind",
+                         "name":  "OruMind",
+                         "tagline":  "Intelligent Product Studio",
+                         "category":  "AI \u0026 Software",
+                         "role":  "Founder \u0026 CEO",
+                         "description":  "Custom AI engines, enterprise software development, and scalable web/mobile platforms. Intelligent Software. Limitless Impact.",
+                         "status":  "active",
+                         "url":  "http://orumind.com/",
+                         "year":  2023,
+                         "logo":  "assets/orumind-logo.svg",
+                         "emoji":  "🧠",
+                         "order":  0,
+                         "createdAt":  "2026-08-30T12:00:00.000Z"
+                     },
+                     {
+                         "id":  "v_creatorsclub",
+                         "name":  "Creators Club",
+                         "tagline":  "Elite Media Production",
+                         "category":  "Media \u0026 Content",
+                         "role":  "Founder \u0026 Creative Director",
+                         "description":  "High-impact cinematic storytelling, content engines, and founder authority pipelines. Turning knowledge and video production into measurable inbound business.",
+                         "status":  "building",
+                         "url":  "https://creatorsclub.co.in/",
+                         "year":  2024,
+                         "logo":  "",
+                         "emoji":  "🎬",
+                         "order":  1,
+                         "createdAt":  "2026-08-30T12:00:00.000Z"
+                     },
+                     {
+                         "id":  "v_worke",
+                         "name":  "Worke",
+                         "tagline":  "AI Face Attendance \u0026 HRMS",
+                         "category":  "HR Technology",
+                         "role":  "Founder",
+                         "description":  "Modern, minimal AI-powered biometric face recognition attendance and comprehensive human resource management engineered for high-performance teams.",
+                         "status":  "active",
+                         "url":  "http://worke.in/",
+                         "year":  2023,
+                         "logo":  "",
+                         "emoji":  "⚡",
+                         "order":  2,
+                         "createdAt":  "2026-08-30T12:00:00.000Z"
+                     },
+                     {
+                         "id":  "v_adpresence",
+                         "name":  "AdPresence",
+                         "tagline":  "Digital Signage Command Center",
+                         "category":  "AdTech",
+                         "role":  "Founder \u0026 CTO",
+                         "description":  "Cloud-native digital signage management platform. Centralized command center powering multi-screen displays, advertising grids, and real-time remote synchronization.",
+                         "status":  "active",
+                         "url":  "http://adpresence.in/",
+                         "year":  2023,
+                         "logo":  "assets/adpresence-logo.png",
+                         "emoji":  "🖥️",
+                         "order":  3,
+                         "createdAt":  "2026-08-30T12:00:00.000Z"
+                     }
+                 ],
+    "projects":  [
+                     {
+                         "id":  "pr_ethical_hacking",
+                         "name":  "Ethical Hacking Book",
+                         "role":  "Author",
+                         "category":  "Publishing",
+                         "description":  "Authored a comprehensive guide to ethical hacking, penetration testing, and cybersecurity fundamentals for engineers and security professionals.",
+                         "tech":  [
+                                      "Cybersecurity",
+                                      "Penetration Testing",
+                                      "Security Architecture"
+                                  ],
+                         "outcome":  "Published book, available in digital and print formats.",
+                         "status":  "completed",
+                         "year":  2022,
+                         "order":  0,
+                         "createdAt":  "2026-08-30T12:00:00.000Z"
+                     },
+                     {
+                         "id":  "pr_freshtacular",
+                         "name":  "Freshtacular Bio",
+                         "role":  "Co-Founder",
+                         "category":  "E-Commerce",
+                         "description":  "India\u0027s early online fresh meat delivery startup. Built supply chain networks and customer loyalty systems before a pandemic-related shutdown.",
+                         "tech":  [
+                                      "E-Commerce",
+                                      "Supply Chain",
+                                      "Operations"
+                                  ],
+                         "outcome":  "Successfully operated until COVID-19 disruption; key learnings applied to future ventures.",
+                         "status":  "exited",
+                         "year":  2019,
+                         "order":  1,
+                         "createdAt":  "2026-08-30T12:00:00.000Z"
+                     },
+                     {
+                         "id":  "pr_racnas",
+                         "name":  "Racnas Infotech",
+                         "role":  "Founder \u0026 CEO",
+                         "category":  "Cybersecurity",
+                         "description":  "End-to-end cybersecurity assessments and custom web development architectures for enterprise clients.",
+                         "tech":  [
+                                      "Cybersecurity",
+                                      "Web Development",
+                                      "Security Audits"
+                                  ],
+                         "outcome":  "Successful cybersecurity consultancy. Exited.",
+                         "status":  "exited",
+                         "year":  2018,
+                         "order":  2,
+                         "createdAt":  "2026-08-30T12:00:00.000Z"
+                     }
+                 ],
+    "journey":  [
+                    {
+                        "id":  "j_2024",
+                        "year":  "2024",
+                        "title":  "Launching Creators Club",
+                        "category":  "Founded",
+                        "company":  "Creators Club",
+                        "description":  "Building an elite media production and creator ecosystem to turn founder expertise into high-impact content and inbound business.",
+                        "link":  "https://creatorsclub.co.in/",
+                        "order":  0,
+                        "createdAt":  "2026-08-30T12:00:00.000Z"
+                    },
+                    {
+                        "id":  "j_2023",
+                        "year":  "2023",
+                        "title":  "Founded OruMind, Worke \u0026 AdPresence",
+                        "category":  "Founded",
+                        "company":  "OruMind | Worke | AdPresence",
+                        "description":  "Simultaneously architecting three tech ventures: OruMind (AI product studio), Worke (AI HRMS), and AdPresence (digital signage platform).",
+                        "link":  "http://orumind.com/",
+                        "order":  1,
+                        "createdAt":  "2026-08-30T12:00:00.000Z"
+                    },
+                    {
+                        "id":  "j_2022",
+                        "year":  "2022",
+                        "title":  "Published Ethical Hacking Book",
+                        "category":  "Published",
+                        "company":  "Independent",
+                        "description":  "Authored and published a comprehensive guide to ethical hacking, penetration testing, and cybersecurity for engineers and security professionals.",
+                        "link":  "",
+                        "order":  2,
+                        "createdAt":  "2026-08-30T12:00:00.000Z"
+                    },
+                    {
+                        "id":  "j_2018",
+                        "year":  "2018-2022",
+                        "title":  "Founder \u0026 CEO — Racnas Infotech",
+                        "category":  "Founded",
+                        "company":  "Racnas Infotech",
+                        "description":  "Spearheaded end-to-end cybersecurity assessments and custom web development architectures. Exited after successful operations.",
+                        "link":  "",
+                        "order":  3,
+                        "createdAt":  "2026-08-30T12:00:00.000Z"
+                    },
+                    {
+                        "id":  "j_2019",
+                        "year":  "2019-2021",
+                        "title":  "Co-Founded Freshtacular Bio",
+                        "category":  "Founded",
+                        "company":  "Freshtacular Bio",
+                        "description":  "Built one of India\u0027s earliest online fresh meat delivery startups. Cultivated supply chain and resilience expertise before navigating a pandemic-driven shutdown.",
+                        "link":  "",
+                        "order":  4,
+                        "createdAt":  "2026-08-30T12:00:00.000Z"
+                    },
+                    {
+                        "id":  "j_pre2018",
+                        "year":  "Pre-2018",
+                        "title":  "Engineer \u0026 Technology Foundation",
+                        "category":  "Career",
+                        "company":  "Engineering",
+                        "description":  "Deep technical foundation across software engineering, systems architecture, and cybersecurity that underpins all future ventures.",
+                        "link":  "",
+                        "order":  5,
+                        "createdAt":  "2026-08-30T12:00:00.000Z"
+                    }
+                ],
+    "contacts":  [
+                     {
+                         "message":  "Hello Sankar, we would love to discuss a potential strategic partnership regarding OruMind.",
+                         "read":  false,
+                         "id":  "msg_80ec9173",
+                         "ip":  "::1",
+                         "name":  "Marcus Vance",
+                         "company":  "Vance Capital Partners",
+                         "reason":  "Investment",
+                         "submittedAt":  "2026-08-30T17:32:14.4817490Z",
+                         "email":  "marcus.vance@venturecap.io"
+                     }
+                 ],
+    "subscribers":  [
+                        {
+                            "id":  "sub_02910b39",
+                            "name":  "Elena Rostova",
+                            "source":  "homepage",
+                            "active":  true,
+                            "email":  "elena.rostova@techgrowth.com",
+                            "subscribedAt":  "2026-08-30T17:32:14.5224946Z"
+                        }
+                    ],
+    "settings":  {
+                     "siteTitle":  "Sankar Karanam",
+                     "siteDescription":  "Serial entrepreneur building ventures that scale. Founder of OruMind, Creators Club, Worke \u0026 AdPresence.",
+                     "founderName":  "Sankar Karanam",
+                     "founderBio":  "Engineer turned serial entrepreneur. Building ventures across AI, media, HR technology, and digital signage. Author of Ethical Hacking. Daily insights on entrepreneurship, AI leverage, and 1% compounding.",
+                     "founderImage":  "assets/sankar.jpeg",
+                     "defaultOgImage":  "assets/og-sankar.jpg",
+                     "seoTitleTemplate":  "%s | Sankar Karanam",
+                     "googleVerification":  "",
+                     "bingVerification":  "",
+                     "ga4Id":  "",
+                     "linkedIn":  "https://www.linkedin.com/in/sankarkaranam7/",
+                     "instagram":  "",
+                     "youtube":  "",
+                     "x":  "",
+                     "facebook":  "",
+                     "email":  "sankarkaranam7@gmail.com",
+                     "phone":  "+91 88855 94123",
+                     "whatsapp":  "https://wa.me/918885594123",
+                     "newsletterTitle":  "The 1% Daily Compounder",
+                     "newsletterDesc":  "Every morning, one actionable insight on entrepreneurship, AI leverage, and systems thinking. No fluff, ever.",
+                     "footerStatement":  "Building ventures that scale \u0026 endure.",
+                     "updatedAt":  "2026-08-30T12:00:00.000Z"
+                 },
+    "media":  [
+
+              ],
+    "analytics":  {
+                      "pageViews":  {
+
+                                    },
+                      "events":  [
+
+                                 ]
+                  }
+}

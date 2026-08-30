@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journey Timeline Manager | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link"><span class="admin-nav-icon">✏️</span> New Post</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link active"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link"><span class="admin-nav-icon">📈</span> Analytics</a>
+      <a href="seo.html" class="admin-nav-link"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="admin-topbar-title">Journey &amp; Milestone Timeline Manager</div>
+  </div>
+
+  <div class="admin-content">
+    <div style="display:grid; grid-template-columns:2fr 1fr; gap:var(--space-8); align-items:start;">
+      
+      <!-- Journey Table -->
+      <div class="admin-table-container">
+        <div class="admin-table-header">
+          <div class="admin-table-title">Timeline Milestones</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Milestone &amp; Entity</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="journey-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Add/Edit Form -->
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <div class="admin-panel-title" id="j-form-heading">Add Milestone</div>
+        </div>
+        <div class="admin-panel-body">
+          <form id="journey-form" class="form" style="display:flex; flex-direction:column; gap:var(--space-4);">
+            <input type="hidden" id="j-id">
+            <div class="form-group">
+              <label class="form-label" for="j-year">Year / Period <span style="color:var(--rose)">*</span></label>
+              <input type="text" id="j-year" class="form-input" placeholder="e.g. 2024 or 2019-2021" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="j-title">Milestone Title <span style="color:var(--rose)">*</span></label>
+              <input type="text" id="j-title" class="form-input" placeholder="e.g. Launching Creators Club" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="j-company">Organization / Brand</label>
+              <input type="text" id="j-company" class="form-input" placeholder="e.g. Creators Club">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="j-category">Category</label>
+              <select id="j-category" class="form-select">
+                <option value="Founded">Founded</option>
+                <option value="Published">Published</option>
+                <option value="Career">Career</option>
+                <option value="Exited">Exited</option>
+                <option value="Milestone">Milestone</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="j-link">External URL <span>(optional)</span></label>
+              <input type="url" id="j-link" class="form-input" placeholder="https://…">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="j-desc">Description</label>
+              <textarea id="j-desc" class="form-textarea" rows="3" placeholder="Context and key takeaways…"></textarea>
+            </div>
+            <div style="display:flex; gap:var(--space-3);">
+              <button type="submit" class="btn btn--primary" style="flex:1;">Save Milestone</button>
+              <button type="button" class="btn btn--secondary" id="reset-j-form" style="display:none;">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+  document.getElementById('logout-btn').onclick = () => { AdminAuth.logout(); window.location.href = 'login.html'; };
+
+  const tbody = document.getElementById('journey-tbody');
+  const form = document.getElementById('journey-form');
+  const cancelBtn = document.getElementById('reset-j-form');
+  const formHeading = document.getElementById('j-form-heading');
+
+  function render() {
+    const list = CMS.Journey.ordered();
+    const esc = CMS.utils.escapeHTML;
+    tbody.innerHTML = list.map(j => `
+      <tr>
+        <td style="font-weight:700; font-family:var(--font-mono); color:var(--cobalt);">${esc(j.year)}</td>
+        <td>
+          <div style="font-weight:600; color:var(--text-primary);">${esc(j.title)}</div>
+          <div style="font-size:11px; color:var(--text-muted);">${esc(j.company||'')}</div>
+        </td>
+        <td><span class="badge badge--blue">${esc(j.category)}</span></td>
+        <td class="td-actions">
+          <button onclick="editJ('${esc(j.id)}')" class="action-btn action-btn--edit">Edit</button>
+          <button onclick="delJ('${esc(j.id)}')" class="action-btn action-btn--delete">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  window.editJ = (id) => {
+    const j = CMS.Journey.get(id);
+    if (!j) return;
+    document.getElementById('j-id').value = j.id;
+    document.getElementById('j-year').value = j.year;
+    document.getElementById('j-title').value = j.title;
+    document.getElementById('j-company').value = j.company || '';
+    document.getElementById('j-category').value = j.category || 'Founded';
+    document.getElementById('j-link').value = j.link || '';
+    document.getElementById('j-desc').value = j.description || '';
+    formHeading.textContent = `Edit Milestone (${j.year})`;
+    cancelBtn.style.display = 'inline-block';
+  };
+
+  window.delJ = (id) => {
+    if (confirm('Delete this milestone?')) {
+      CMS.Journey.delete(id);
+      render();
+    }
+  };
+
+  cancelBtn.onclick = () => {
+    form.reset();
+    document.getElementById('j-id').value = '';
+    formHeading.textContent = 'Add Milestone';
+    cancelBtn.style.display = 'none';
+  };
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const id = document.getElementById('j-id').value;
+    const jData = {
+      id: id || undefined,
+      year: document.getElementById('j-year').value.trim(),
+      title: document.getElementById('j-title').value.trim(),
+      company: document.getElementById('j-company').value.trim(),
+      category: document.getElementById('j-category').value,
+      link: document.getElementById('j-link').value.trim(),
+      description: document.getElementById('j-desc').value.trim(),
+    };
+    CMS.Journey.save(jData);
+    cancelBtn.click();
+    render();
+  };
+
+  render();
+});
+</script>
+</body>
+</html>
+

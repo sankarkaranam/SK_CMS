@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter Subscribers | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link"><span class="admin-nav-icon">✏️</span> New Post</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link active"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link"><span class="admin-nav-icon">📈</span> Analytics</a>
+      <a href="seo.html" class="admin-nav-link"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="admin-topbar-title">Newsletter Audience Manager</div>
+    <div class="admin-topbar-actions">
+      <button class="btn btn--primary btn--sm" id="export-csv-btn">⬇️ Export CSV</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">✉️</div>
+        <div class="stat-card-label">Total Subscribers</div>
+        <div class="stat-card-value" id="sub-total">0</div>
+        <div class="stat-card-sub">Active list size</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">📈</div>
+        <div class="stat-card-label">Acquisition Channel</div>
+        <div class="stat-card-value" style="font-size:var(--text-xl);">Direct / Portal</div>
+        <div class="stat-card-sub">100% Organic Inbound</div>
+      </div>
+    </div>
+
+    <div class="admin-table-container">
+      <div class="admin-table-header">
+        <div class="admin-table-title">Subscribers List</div>
+        <input type="search" id="sub-search" class="admin-search-input" placeholder="Search email or name…">
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Subscriber Email</th>
+            <th>Name</th>
+            <th>Source</th>
+            <th>Subscribed Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="subs-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+  document.getElementById('logout-btn').onclick = () => { AdminAuth.logout(); window.location.href = 'login.html'; };
+
+  const tbody = document.getElementById('subs-tbody');
+  const searchInput = document.getElementById('sub-search');
+  const totalEl = document.getElementById('sub-total');
+
+  let allSubs = [];
+
+  async function render() {
+    allSubs = await CMS.Subscribers.fetchAll();
+    const q = searchInput.value.trim().toLowerCase();
+    const list = (allSubs || []).filter(s => !q || s.email.toLowerCase().includes(q) || (s.name||'').toLowerCase().includes(q));
+    totalEl.textContent = (allSubs || []).length;
+    if (list.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:var(--space-8); color:var(--text-muted);">No subscribers found. Subscriptions from the homepage and newsletter form will appear here in the centralized database.</td></tr>';
+      return;
+    }
+    const esc = CMS.utils.escapeHTML;
+    tbody.innerHTML = list.map(s => `
+      <tr>
+        <td style="font-weight:600; color:var(--text-primary);">${esc(s.email)}</td>
+        <td>${s.name ? esc(s.name) : '<span style="color:var(--text-faint);">N/A</span>'}</td>
+        <td><span class="badge badge--slate">${esc(s.source||'website')}</span></td>
+        <td style="font-size:var(--text-xs); color:var(--text-muted);">${new Date(s.subscribedAt).toLocaleDateString('en-IN')}</td>
+        <td><span class="badge badge--green badge--dot">Active</span></td>
+      </tr>
+    `).join('');
+  }
+
+  searchInput.addEventListener('input', render);
+
+  document.getElementById('export-csv-btn').onclick = async () => {
+    const csv = await CMS.Subscribers.exportCSV();
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `newsletter-subscribers-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  };
+
+  render();
+});
+</script>
+</body>
+</html>
+

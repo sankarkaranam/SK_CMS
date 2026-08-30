@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Settings | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link"><span class="admin-nav-icon">✏️</span> New Post</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link"><span class="admin-nav-icon">📈</span> Analytics</a>
+      <a href="seo.html" class="admin-nav-link"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link active"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="admin-topbar-title">Site &amp; Brand Settings</div>
+  </div>
+
+  <div class="admin-content">
+    <div class="admin-panel" style="max-width:800px;">
+      <div class="admin-panel-header"><div class="admin-panel-title">Brand Identity &amp; Links</div></div>
+      <div class="admin-panel-body">
+        <form id="settings-form" class="form" style="display:flex; flex-direction:column; gap:var(--space-4);">
+          <div class="form-group">
+            <label class="form-label" for="set-name">Founder Full Name</label>
+            <input type="text" id="set-name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="set-bio">Founder Short Bio</label>
+            <textarea id="set-bio" class="form-textarea" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="set-linkedin">LinkedIn Profile URL</label>
+            <input type="url" id="set-linkedin" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="set-email">Founder Direct Email</label>
+            <input type="email" id="set-email" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="set-whatsapp">WhatsApp Phone / Direct Link</label>
+            <input type="text" id="set-whatsapp" class="form-input">
+          </div>
+
+          <div style="margin-top:var(--space-4); border-top:1px solid var(--border-subtle); padding-top:var(--space-5);">
+            <h3 style="font-size:var(--text-base); font-weight:700; margin-bottom:var(--space-4);">Security: Change Admin Passphrase</h3>
+            <div class="form-group" style="margin-bottom:var(--space-3);">
+              <label class="form-label" for="old-pass">Current Passphrase</label>
+              <input type="password" id="old-pass" class="form-input" placeholder="Current passphrase">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-pass">New Passphrase <span>(min 8 chars)</span></label>
+              <input type="password" id="new-pass" class="form-input" placeholder="New passphrase">
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--border-subtle); padding-top:var(--space-5); display:flex; justify-content:space-between; align-items:center;">
+            <button type="submit" class="btn btn--primary">Save All Settings</button>
+            <span id="set-msg" style="color:var(--emerald); font-size:var(--text-xs); display:none;">✓ Settings Saved!</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+  document.getElementById('logout-btn').onclick = () => { AdminAuth.logout(); window.location.href = 'login.html'; };
+
+  const s = CMS.Settings.get();
+  document.getElementById('set-name').value = s.founderName || 'Sankar Karanam';
+  document.getElementById('set-bio').value = s.founderBio || '';
+  document.getElementById('set-linkedin').value = s.linkedIn || 'https://www.linkedin.com/in/sankarkaranam7/';
+  document.getElementById('set-email').value = s.email || 'sankarkaranam7@gmail.com';
+  document.getElementById('set-whatsapp').value = s.whatsapp || 'https://wa.me/918885594123';
+
+  const form = document.getElementById('settings-form');
+  const msg = document.getElementById('set-msg');
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    CMS.Settings.save({
+      founderName: document.getElementById('set-name').value.trim(),
+      founderBio: document.getElementById('set-bio').value.trim(),
+      linkedIn: document.getElementById('set-linkedin').value.trim(),
+      email: document.getElementById('set-email').value.trim(),
+      whatsapp: document.getElementById('set-whatsapp').value.trim(),
+    });
+
+    const oldP = document.getElementById('old-pass').value;
+    const newP = document.getElementById('new-pass').value;
+    if (oldP && newP) {
+      const res = AdminAuth.changePassphrase(oldP, newP);
+      if (!res.ok) {
+        alert(res.message);
+        return;
+      }
+    }
+
+    msg.style.display = 'inline';
+    setTimeout(() => msg.style.display = 'none', 3000);
+  };
+});
+</script>
+</body>
+</html>
+

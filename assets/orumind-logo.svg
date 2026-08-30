@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Dark Theme Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#033C33" />
+      <stop offset="100%" stop-color="#011A14" />
+    </linearGradient>
+
+    <!-- Glowing Mint Accent Gradient -->
+    <linearGradient id="mintGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2BF2AC" />
+      <stop offset="100%" stop-color="#28DA98" />
+    </linearGradient>
+
+    <!-- Soft Ambient Glow -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Container matching page theme -->
+  <rect width="128" height="128" rx="28" fill="url(#bgGrad)"/>
+  <rect width="122" height="122" x="3" y="3" rx="25" fill="none" stroke="#2BF2AC" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Radial Core Glow -->
+  <circle cx="64" cy="64" r="42" fill="#2BF2AC" opacity="0.15"/>
+
+  <!-- Stylized Geometric ORUMIND 'O' Ring -->
+  <circle 
+    cx="64" 
+    cy="64" 
+    r="32" 
+    fill="none" 
+    stroke="url(#mintGrad)" 
+    stroke-width="8" 
+    stroke-linecap="round"
+  />
+
+  <!-- Neural AI Core Node -->
+  <circle cx="64" cy="64" r="9" fill="#2BF2AC" filter="url(#glow)"/>
+
+  <!-- Geometric Accent Dots -->
+  <circle cx="64" cy="24" r="3.5" fill="#2BF2AC" />
+  <circle cx="104" cy="64" r="3.5" fill="#2BF2AC" />
+</svg>

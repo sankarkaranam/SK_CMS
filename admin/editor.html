@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Editor | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <!-- Quill Rich Text Editor -->
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<!-- Sidebar (same as dashboard) -->
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link active"><span class="admin-nav-icon">✏️</span> Editor</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="seo.html" class="admin-nav-link"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div>
+      <div class="admin-topbar-title" id="editor-topbar-title">New Post</div>
+    </div>
+    <div class="admin-topbar-actions">
+      <div class="autosave-indicator" id="autosave-indicator">
+        <span class="autosave-dot" id="autosave-dot"></span>
+        <span id="autosave-text">Not saved</span>
+      </div>
+      <button class="btn btn--secondary btn--sm" id="save-draft-btn">Save Draft</button>
+      <button class="btn btn--primary btn--sm" id="publish-btn">Publish →</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <div class="editor-layout">
+
+      <!-- Main Editor -->
+      <div class="editor-main">
+        <div class="admin-panel" style="border-radius:var(--radius-xl); overflow:visible;">
+          <div class="admin-panel-body" style="padding:var(--space-8)">
+            <input type="text" class="editor-title-input" id="post-title" placeholder="Post title…" autocomplete="off">
+            <input type="text" class="editor-subtitle-input" id="post-subtitle" placeholder="Subtitle or hook (optional)…">
+            <div id="quill-editor" style="min-height:500px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="editor-sidebar">
+
+        <!-- Post Settings -->
+        <div class="admin-panel" style="margin-bottom:var(--space-5);">
+          <div class="admin-panel-header"><div class="admin-panel-title">Post Settings</div></div>
+          <div class="admin-panel-body" style="display:flex; flex-direction:column; gap:var(--space-4);">
+            <div class="form-group">
+              <label class="form-label" for="post-status">Status</label>
+              <select class="form-select" id="post-status">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="post-slug">Slug <span>(URL)</span></label>
+              <input type="text" class="form-input" id="post-slug" placeholder="auto-generated-from-title">
+              <span class="form-hint" id="slug-preview" style="font-size:10px"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="post-category">Category</label>
+              <select class="form-select" id="post-category">
+                <option value="1% Daily Growth">1% Daily Growth</option>
+                <option value="AI & Tech">AI &amp; Tech</option>
+                <option value="Entrepreneurship">Entrepreneurship</option>
+                <option value="Content Creation">Content Creation</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Business">Business</option>
+                <option value="Personal">Personal</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="post-tags">Tags <span>(comma separated)</span></label>
+              <input type="text" class="form-input" id="post-tags" placeholder="startup, ai, growth">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="post-date">Publish Date</label>
+              <input type="datetime-local" class="form-input" id="post-date">
+            </div>
+          </div>
+        </div>
+
+        <!-- Excerpt -->
+        <div class="admin-panel" style="margin-bottom:var(--space-5);">
+          <div class="admin-panel-header"><div class="admin-panel-title">Excerpt</div></div>
+          <div class="admin-panel-body">
+            <textarea class="form-textarea" id="post-excerpt" rows="3" placeholder="Brief description for article cards and search results…" style="min-height:80px;"></textarea>
+            <span class="form-hint" id="excerpt-count">0 / 160 chars</span>
+          </div>
+        </div>
+
+        <!-- SEO -->
+        <div class="admin-panel" style="margin-bottom:var(--space-5);">
+          <div class="admin-panel-header">
+            <div class="admin-panel-title">SEO</div>
+          </div>
+          <div class="admin-panel-body" style="display:flex; flex-direction:column; gap:var(--space-4);">
+            <div class="form-group">
+              <label class="form-label" for="seo-title">SEO Title <span id="seo-title-count"></span></label>
+              <input type="text" class="form-input" id="seo-title" placeholder="Overrides post title in browser tab">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="seo-desc">Meta Description <span id="seo-desc-count"></span></label>
+              <textarea class="form-textarea" id="seo-desc" rows="2" placeholder="150–160 chars recommended" style="min-height:70px;"></textarea>
+            </div>
+          </div>
+          <!-- SEO Score Widget -->
+          <div class="admin-panel-body" style="border-top:1px solid var(--border-subtle);">
+            <div class="seo-score-label">SEO Score</div>
+            <div class="seo-score-circle" id="seo-score-circle">
+              <span class="seo-score-value" id="seo-score-value">0</span>
+            </div>
+            <div class="seo-checks" id="seo-checks-list">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Google SERP Preview -->
+        <div class="admin-panel" style="margin-bottom:var(--space-5);">
+          <div class="admin-panel-header"><div class="admin-panel-title">Search Preview</div></div>
+          <div class="admin-panel-body">
+            <div style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:var(--space-4);">
+              <div style="font-size:11px; color:#1a0dab; font-weight:500; margin-bottom:2px;" id="serp-title">Post Title</div>
+              <div style="font-size:10px; color:#006621; margin-bottom:2px;">sankarkaranam.com › journal › <span id="serp-slug">slug</span></div>
+              <div style="font-size:11px; color:#545454;" id="serp-desc">Meta description will appear here…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- OG Preview -->
+        <div class="admin-panel" style="margin-bottom:var(--space-5);">
+          <div class="admin-panel-header"><div class="admin-panel-title">Social Card Preview</div></div>
+          <div class="admin-panel-body">
+            <div class="social-preview">
+              <div class="og-preview-image" id="og-preview-img">
+                <span style="font-size:2rem;">📝</span>
+              </div>
+              <div class="og-preview-body">
+                <div class="og-preview-url">sankarkaranam.com</div>
+                <div class="og-preview-title" id="og-title">Post Title</div>
+                <div class="og-preview-desc" id="og-desc">Meta description…</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Revisions -->
+        <div class="admin-panel" id="revisions-panel" style="margin-bottom:var(--space-5); display:none;">
+          <div class="admin-panel-header"><div class="admin-panel-title">Revisions</div></div>
+          <div class="admin-panel-body" id="revisions-list" style="display:flex;flex-direction:column;gap:var(--space-2);">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+
+  let postId = null;
+  let quill;
+  let autosaveTimer;
+
+  /* ── Load existing post if ?id= is set ── */
+  const urlParams = new URLSearchParams(window.location.search);
+  const editId = urlParams.get('id');
+  if (editId) {
+    CMS.Posts.fetchAll().then(posts => {
+      const existing = (posts || []).find(p => p.id === editId || p.slug === editId);
+      if (existing) {
+        postId = existing.id;
+        populateForm(existing);
+        document.getElementById('editor-topbar-title').textContent = 'Edit Post';
+        loadRevisions(existing);
+      }
+    });
+  }
+
+  /* ── Init Quill ── */
+  quill = new Quill('#quill-editor', {
+    theme: 'snow',
+    placeholder: 'Write your insight here…',
+    modules: {
+      toolbar: [
+        [{ header: [2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote', 'code-block'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link', 'image'],
+        ['clean'],
+      ]
+    }
+  });
+
+  /* ── Set default date to now ── */
+  if (!editId) {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    document.getElementById('post-date').value = now.toISOString().slice(0, 16);
+  }
+
+  /* ── Auto-generate slug from title ── */
+  document.getElementById('post-title')?.addEventListener('input', (e) => {
+    if (!editId) {
+      const slugVal = CMS.utils.slug(e.target.value);
+      document.getElementById('post-slug').value = slugVal;
+    }
+    updatePreviews();
+    updateSeoScore();
+  });
+
+  /* ── Word counters ── */
+  document.getElementById('post-excerpt')?.addEventListener('input', (e) => {
+    document.getElementById('excerpt-count').textContent = `${e.target.value.length} / 160 chars`;
+    updatePreviews();
+    updateSeoScore();
+  });
+  document.getElementById('seo-title')?.addEventListener('input', (e) => {
+    document.getElementById('seo-title-count').textContent = `(${e.target.value.length}/60)`;
+    updatePreviews(); updateSeoScore();
+  });
+  document.getElementById('seo-desc')?.addEventListener('input', (e) => {
+    document.getElementById('seo-desc-count').textContent = `(${e.target.value.length}/160)`;
+    updatePreviews(); updateSeoScore();
+  });
+  document.getElementById('post-slug')?.addEventListener('input', () => updatePreviews());
+  quill.on('text-change', () => { setAutosave('saving'); updateSeoScore(); });
+
+  /* ── Autosave ── */
+  function setAutosave(state) {
+    const dot = document.getElementById('autosave-dot');
+    const text = document.getElementById('autosave-text');
+    dot.className = 'autosave-dot ' + (state === 'saving' ? 'saving' : state === 'saved' ? 'saved' : '');
+    text.textContent = state === 'saving' ? 'Saving…' : state === 'saved' ? 'Saved' : 'Unsaved changes';
+    clearTimeout(autosaveTimer);
+    if (state === 'saving') {
+      autosaveTimer = setTimeout(() => {
+        savePost('draft', true);
+      }, 30000); // autosave after 30s of inactivity
+    }
+  }
+
+  /* ── SEO Score ── */
+  const SEO_CHECKS = [
+    { id: 'seo-title', label: 'SEO title set', check: () => !!document.getElementById('seo-title').value },
+    { id: 'seo-title-len', label: 'SEO title ≤ 60 chars', check: () => (document.getElementById('seo-title').value||'').length <= 60 },
+    { id: 'seo-desc', label: 'Meta description set', check: () => !!document.getElementById('seo-desc').value },
+    { id: 'seo-desc-len', label: 'Meta description ≤ 160 chars', check: () => (document.getElementById('seo-desc').value||'').length <= 160 },
+    { id: 'post-title', label: 'Post title present', check: () => !!document.getElementById('post-title').value },
+    { id: 'post-slug', label: 'Slug is URL-friendly', check: () => /^[a-z0-9-]+$/.test(document.getElementById('post-slug').value || '') },
+    { id: 'excerpt', label: 'Excerpt/description set', check: () => !!document.getElementById('post-excerpt').value },
+    { id: 'category', label: 'Category selected', check: () => !!document.getElementById('post-category').value },
+    { id: 'content-len', label: 'Content > 300 words', check: () => quill.getText().split(/\s+/).filter(Boolean).length > 300 },
+  ];
+
+  function updateSeoScore() {
+    const passed = SEO_CHECKS.filter(c => { try { return c.check(); } catch { return false; } });
+    const score = Math.round((passed.length / SEO_CHECKS.length) * 100);
+    document.getElementById('seo-score-value').textContent = score;
+    const circle = document.getElementById('seo-score-circle');
+    circle.style.borderColor = score >= 80 ? '#16a34a' : score >= 50 ? '#d97706' : '#e11d48';
+    document.getElementById('seo-score-value').style.color = score >= 80 ? '#16a34a' : score >= 50 ? '#d97706' : '#e11d48';
+    document.getElementById('seo-checks-list').innerHTML = SEO_CHECKS.map(c => {
+      const pass = (() => { try { return c.check(); } catch { return false; } })();
+      return `<div class="seo-check ${pass ? 'pass' : 'fail'}"><span class="seo-check-icon">${pass ? '✓' : '✕'}</span><span>${c.label}</span></div>`;
+    }).join('');
+  }
+
+  function updatePreviews() {
+    const title = document.getElementById('post-title').value || 'Post Title';
+    const seoTitle = document.getElementById('seo-title').value || title;
+    const seoDesc = document.getElementById('seo-desc').value || document.getElementById('post-excerpt').value || 'Meta description…';
+    const slug = document.getElementById('post-slug').value || 'slug';
+    document.getElementById('serp-title').textContent = seoTitle;
+    document.getElementById('serp-slug').textContent = slug;
+    document.getElementById('serp-desc').textContent = seoDesc.slice(0, 160);
+    document.getElementById('og-title').textContent = title;
+    document.getElementById('og-desc').textContent = seoDesc.slice(0, 120);
+  }
+
+  function buildPost(status) {
+    return {
+      id: postId || undefined,
+      title: document.getElementById('post-title').value.trim(),
+      subtitle: document.getElementById('post-subtitle').value.trim(),
+      slug: document.getElementById('post-slug').value.trim() || CMS.utils.slug(document.getElementById('post-title').value),
+      excerpt: document.getElementById('post-excerpt').value.trim(),
+      content: quill.root.innerHTML,
+      category: document.getElementById('post-category').value,
+      tags: document.getElementById('post-tags').value.split(',').map(t => t.trim()).filter(Boolean),
+      seoTitle: document.getElementById('seo-title').value.trim(),
+      seoDesc: document.getElementById('seo-desc').value.trim(),
+      status: status || document.getElementById('post-status').value,
+      publishedAt: new Date(document.getElementById('post-date').value).toISOString() || CMS.utils.now(),
+    };
+  }
+
+  async function savePost(status, silent = false) {
+    const data = buildPost(status);
+    if (!data.title) { if (!silent) alert('Please enter a title.'); return; }
+    try {
+      const saved = await CMS.Posts.save(data);
+      if (!postId && saved) {
+        postId = saved.id;
+        history.replaceState({}, '', `editor.html?id=${postId}`);
+      }
+      setAutosave('saved');
+      if (!silent) {
+        showToast(status === 'published' ? 'Post published to database & generated static HTML!' : 'Draft saved to database!', 'success');
+        setTimeout(() => { if (status === 'published') window.open(`../journal/${saved.slug}.html`, '_blank'); }, 500);
+      }
+      if (saved) loadRevisions(saved);
+    } catch (e) {
+      if (!silent) alert('Error saving post: ' + e.message);
+    }
+  }
+
+  document.getElementById('save-draft-btn')?.addEventListener('click', () => savePost('draft'));
+  document.getElementById('publish-btn')?.addEventListener('click', () => {
+    document.getElementById('post-status').value = 'published';
+    savePost('published');
+  });
+
+  function populateForm(post) {
+    document.getElementById('post-title').value = post.title || '';
+    document.getElementById('post-subtitle').value = post.subtitle || '';
+    document.getElementById('post-slug').value = post.slug || '';
+    document.getElementById('post-excerpt').value = post.excerpt || '';
+    document.getElementById('post-category').value = post.category || '1% Daily Growth';
+    document.getElementById('post-tags').value = (post.tags || []).join(', ');
+    document.getElementById('seo-title').value = post.seoTitle || '';
+    document.getElementById('seo-desc').value = post.seoDesc || '';
+    document.getElementById('post-status').value = post.status || 'draft';
+    if (post.publishedAt) {
+      const d = new Date(post.publishedAt);
+      d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+      document.getElementById('post-date').value = d.toISOString().slice(0, 16);
+    }
+    if (post.content) quill.root.innerHTML = post.content;
+    updatePreviews();
+    updateSeoScore();
+  }
+
+  function loadRevisions(post) {
+    if (!post.revisions || post.revisions.length === 0) return;
+    const panel = document.getElementById('revisions-panel');
+    const list = document.getElementById('revisions-list');
+    panel.style.display = 'block';
+    list.innerHTML = post.revisions.map((r, i) => `
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:var(--text-xs); padding:var(--space-2) 0; border-bottom:1px solid var(--border-subtle);">
+        <span style="color:var(--text-muted);">Revision ${post.revisions.length - i} — ${new Date(r.savedAt).toLocaleString('en-IN')}</span>
+        <button onclick="restoreRevision(${i})" class="action-btn action-btn--view">Restore</button>
+      </div>
+    `).join('');
+    window.restoreRevision = (i) => {
+      const p = CMS.Posts.get(postId);
+      if (p && p.revisions[i]) { populateForm(p.revisions[i].snapshot); }
+    };
+  }
+
+  /* ── Logout ── */
+  document.getElementById('logout-btn')?.addEventListener('click', () => { AdminAuth.logout(); window.location.href = 'login.html'; });
+
+  /* ── Toast ── */
+  window.showToast = function(msg, type='success', dur=3000) {
+    const c = document.getElementById('toast-container');
+    if (!c) return;
+    const t = document.createElement('div');
+    t.className = `toast toast-${type}`;
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); }, dur);
+  };
+
+  updateSeoScore();
+  updatePreviews();
+});
+</script>
+</body>
+</html>
+

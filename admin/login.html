@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Sankar Karanam CMS</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body admin-login-page">
+
+<div class="admin-login-card">
+  <img src="../assets/sankar.jpeg" alt="Sankar Karanam" class="admin-login-logo">
+  <h1 class="admin-login-title">Admin Access</h1>
+  <p class="admin-login-sub">Sankar Karanam CMS — Authenticated Server Gateway</p>
+
+  <form class="admin-login-form" id="login-form" novalidate>
+    <div id="login-error" class="admin-login-error" role="alert"></div>
+
+    <div class="form-group">
+      <label class="form-label" for="username-input">Admin Username or Email</label>
+      <input type="text" id="username-input" class="form-input" placeholder="admin or sankarkaranam7@gmail.com" value="admin" required autofocus>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="password-input">Password</label>
+      <input type="password" id="password-input" class="form-input" placeholder="Enter password (default: SecurePassword123!)" autocomplete="current-password" required>
+    </div>
+
+    <button type="submit" id="submit-btn" class="btn btn--primary" style="width:100%;">Sign In →</button>
+  </form>
+
+  <div style="margin-top:var(--space-8); padding-top:var(--space-6); border-top:1px solid var(--border-subtle); text-align:center;">
+    <a href="../index.html" style="font-size:var(--text-sm); color:var(--text-muted);">← Back to site</a>
+  </div>
+</div>
+
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  if (AdminAuth.isAuthenticated()) {
+    const isLive = await AdminAuth.checkServerAuth();
+    if (isLive) {
+      window.location.href = 'index.html';
+      return;
+    }
+  }
+
+  const form = document.getElementById('login-form');
+  const errorEl = document.getElementById('login-error');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.classList.remove('visible');
+    errorEl.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Authenticating…';
+
+    const username = document.getElementById('username-input').value.trim();
+    const password = document.getElementById('password-input').value;
+
+    const result = await AdminAuth.login(username, password);
+
+    if (result.ok) {
+      window.location.href = 'index.html';
+    } else {
+      errorEl.textContent = result.message || 'Invalid username or password.';
+      errorEl.classList.add('visible');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign In →';
+    }
+  });
+});
+</script>
+</body>
+</html>

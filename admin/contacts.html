@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Inbox | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link"><span class="admin-nav-icon">✏️</span> New Post</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link active"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link"><span class="admin-nav-icon">📈</span> Analytics</a>
+      <a href="seo.html" class="admin-nav-link"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="admin-topbar-title">Contact Inbox</div>
+    <div class="admin-topbar-actions">
+      <button class="btn btn--secondary btn--sm" id="export-contacts-btn">Export Inquiries (JSON)</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <div class="admin-table-container">
+      <div class="admin-table-header">
+        <div class="admin-table-title">Received Inquiries</div>
+        <div style="font-size:var(--text-xs); color:var(--text-muted);" id="inbox-status">0 inquiries</div>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Sender</th>
+            <th>Reason</th>
+            <th>Message Snippet</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="contacts-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Message Modal View -->
+    <div id="contact-modal" class="search-modal-overlay">
+      <div class="search-modal" style="padding:var(--space-8);">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:var(--space-4);">
+          <div>
+            <h3 id="m-name" style="font-size:var(--text-xl); font-weight:800;"></h3>
+            <a id="m-email" href="" style="color:var(--cobalt); font-size:var(--text-sm);"></a>
+            <div id="m-company" style="font-size:var(--text-xs); color:var(--text-muted);"></div>
+          </div>
+          <button id="close-modal-btn" class="action-btn action-btn--view">✕ Close</button>
+        </div>
+        <div style="margin-bottom:var(--space-4);"><span class="badge badge--blue" id="m-reason"></span></div>
+        <div id="m-body" style="background:var(--bg-secondary); border-radius:var(--radius-lg); padding:var(--space-6); font-size:var(--text-sm); line-height:var(--leading-relaxed); max-height:40vh; overflow-y:auto; white-space:pre-wrap;"></div>
+        <div style="margin-top:var(--space-6); display:flex; justify-content:flex-end; gap:var(--space-3);">
+          <a id="m-reply-btn" href="" class="btn btn--primary btn--sm">Reply via Email →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+  document.getElementById('logout-btn').onclick = () => { AdminAuth.logout(); window.location.href = 'login.html'; };
+
+  const tbody = document.getElementById('contacts-tbody');
+  const modal = document.getElementById('contact-modal');
+  const statusEl = document.getElementById('inbox-status');
+
+  let currentContacts = [];
+
+  async function render() {
+    currentContacts = await CMS.Contacts.fetchAll();
+    const list = currentContacts;
+    const esc = CMS.utils.escapeHTML;
+    statusEl.textContent = `${list.length} message${list.length !== 1 ? 's' : ''}`;
+    if (list.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:var(--space-8); color:var(--text-muted);">No messages submitted yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = list.map(c => `
+      <tr style="${!c.read ? 'background:rgba(37,99,235,0.03); font-weight:600;' : ''}">
+        <td>
+          <div style="color:var(--text-primary);">${esc(c.name)}</div>
+          <div style="font-size:11px; color:var(--text-muted); font-weight:400;">${esc(c.email)}</div>
+        </td>
+        <td><span class="badge badge--blue">${esc(c.reason)}</span></td>
+        <td style="max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:400; color:var(--text-secondary);">${esc(c.message)}</td>
+        <td style="font-size:var(--text-xs); color:var(--text-muted); font-weight:400;">${new Date(c.submittedAt).toLocaleDateString('en-IN')}</td>
+        <td class="td-actions">
+          <button onclick="viewMsg('${esc(c.id)}')" class="action-btn action-btn--view">View</button>
+          <button onclick="delMsg('${esc(c.id)}')" class="action-btn action-btn--delete">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  window.viewMsg = async (id) => {
+    const c = currentContacts.find(x => x.id === id);
+    if (!c) return;
+    await CMS.Contacts.markRead(id);
+    document.getElementById('m-name').textContent = c.name;
+    document.getElementById('m-email').textContent = c.email;
+    document.getElementById('m-email').href = `mailto:${c.email}`;
+    document.getElementById('m-company').textContent = c.company ? `Company: ${c.company}` : '';
+    document.getElementById('m-reason').textContent = c.reason;
+    document.getElementById('m-body').textContent = c.message;
+    document.getElementById('m-reply-btn').href = `mailto:${c.email}?subject=Re: ${encodeURIComponent(c.reason)} Inquiry`;
+    modal.classList.add('open');
+    await render();
+  };
+
+  window.delMsg = async (id) => {
+    if (confirm('Delete this inquiry?')) {
+      await CMS.Contacts.delete(id);
+      await render();
+    }
+  };
+
+  document.getElementById('close-modal-btn').onclick = () => modal.classList.remove('open');
+  modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('open'); };
+
+  document.getElementById('export-contacts-btn').onclick = () => {
+    const blob = new Blob([JSON.stringify(CMS.Contacts.all(), null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `contacts-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+  };
+
+  render();
+});
+</script>
+</body>
+</html>
+

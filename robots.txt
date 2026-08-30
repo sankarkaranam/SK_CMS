@@ -1,0 +1,6 @@
+# robots.txt for sankarkaranam.com
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://sankarkaranam.com/sitemap.xml

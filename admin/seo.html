@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO Settings | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link"><span class="admin-nav-icon">✏️</span> New Post</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link"><span class="admin-nav-icon">📈</span> Analytics</a>
+      <a href="seo.html" class="admin-nav-link active"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="admin-topbar-title">Search Engine Optimization (SEO) Settings</div>
+  </div>
+
+  <div class="admin-content">
+    <div class="admin-panel" style="max-width:800px;">
+      <div class="admin-panel-header"><div class="admin-panel-title">SEO &amp; Indexing Configuration</div></div>
+      <div class="admin-panel-body">
+        <form id="seo-settings-form" class="form" style="display:flex; flex-direction:column; gap:var(--space-5);">
+          <div class="form-group">
+            <label class="form-label" for="seo-title-tmpl">Default Title Template</label>
+            <input type="text" id="seo-title-tmpl" class="form-input" placeholder="%s | Sankar Karanam">
+            <span class="form-hint">Use %s as the placeholder for page or article title.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="seo-site-desc">Default Meta Description</label>
+            <textarea id="seo-site-desc" class="form-textarea" rows="3"></textarea>
+            <span class="form-hint">Shown in Google search results if a specific page description isn't set.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="seo-g-verify">Google Search Console Verification Tag</label>
+            <input type="text" id="seo-g-verify" class="form-input" placeholder='e.g. google-site-verification="abcdef..."'>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="seo-ga4">Google Analytics 4 Measurement ID</label>
+            <input type="text" id="seo-ga4" class="form-input" placeholder="e.g. G-XXXXXXXXXX">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="seo-og-image">Default Open Graph Image URL</label>
+            <input type="text" id="seo-og-image" class="form-input" placeholder="assets/og-sankar.jpg">
+          </div>
+
+          <div style="border-top:1px solid var(--border-subtle); padding-top:var(--space-5); display:flex; justify-content:space-between; align-items:center;">
+            <button type="submit" class="btn btn--primary">Save SEO Settings</button>
+            <span id="seo-save-msg" style="color:var(--emerald); font-size:var(--text-xs); display:none;">✓ Settings Saved!</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+  document.getElementById('logout-btn').onclick = () => { AdminAuth.logout(); window.location.href = 'login.html'; };
+
+  const s = CMS.Settings.get();
+  document.getElementById('seo-title-tmpl').value = s.seoTitleTemplate || '%s | Sankar Karanam';
+  document.getElementById('seo-site-desc').value = s.siteDescription || '';
+  document.getElementById('seo-g-verify').value = s.googleVerification || '';
+  document.getElementById('seo-ga4').value = s.ga4Id || '';
+  document.getElementById('seo-og-image').value = s.defaultOgImage || 'assets/og-sankar.jpg';
+
+  const form = document.getElementById('seo-settings-form');
+  const msg = document.getElementById('seo-save-msg');
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    CMS.Settings.save({
+      seoTitleTemplate: document.getElementById('seo-title-tmpl').value.trim(),
+      siteDescription: document.getElementById('seo-site-desc').value.trim(),
+      googleVerification: document.getElementById('seo-g-verify').value.trim(),
+      ga4Id: document.getElementById('seo-ga4').value.trim(),
+      defaultOgImage: document.getElementById('seo-og-image').value.trim(),
+    });
+    msg.style.display = 'inline';
+    setTimeout(() => msg.style.display = 'none', 3000);
+  };
+});
+</script>
+</body>
+</html>
+

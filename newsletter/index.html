@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 1% Daily Compounder | Sankar Karanam Newsletter</title>
+  <meta name="description" content="Subscribe to The 1% Daily Compounder by Sankar Karanam. Every morning, one actionable insight on entrepreneurship, AI leverage, and compounding business growth.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sankarkaranam.com/newsletter/">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<main>
+  <section class="section--sm bg-surface" style="border-bottom:1px solid var(--border-subtle)">
+    <div class="container container--narrow" style="text-align:center;">
+      <nav class="breadcrumb" aria-label="Breadcrumb" style="justify-content:center;">
+        <div class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Home</a><span class="breadcrumb-separator">/</span></div>
+        <div class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">Newsletter</span></div>
+      </nav>
+      <span class="section-eyebrow" style="justify-content:center;">Founder Letter</span>
+      <h1 class="section-title">The 1% Daily Compounder</h1>
+      <p class="section-subtitle" style="margin-inline:auto;">A concise, high-signal dispatch delivered straight to founders, builders, and operators. One sharp mental model or operational lesson each morning.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="card" style="padding:var(--space-10); border:1px solid var(--cobalt-mid); background:linear-gradient(180deg, var(--bg-card), var(--cobalt-light));">
+        <form id="newsletter-page-form" class="form" style="display:flex; flex-direction:column; gap:var(--space-4);" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="nl-name">First Name <span>(optional)</span></label>
+            <input type="text" id="nl-name" class="form-input" placeholder="e.g. Alex" autocomplete="given-name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="nl-email">Your Work or Personal Email <span style="color:var(--rose)">*</span></label>
+            <input type="email" id="nl-email" class="form-input" placeholder="alex@company.com" required autocomplete="email">
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">Join The 1% Compounder Free →</button>
+          <p style="font-size:var(--text-xs); color:var(--text-muted); text-align:center;">Zero spam. No sponsor ads. Unsubscribe in 1 click anytime.</p>
+          <div id="nl-alert" style="display:none; text-align:center; padding:var(--space-4); border-radius:var(--radius-md); font-weight:600;"></div>
+        </form>
+      </div>
+
+      <div style="margin-top:var(--space-16);">
+        <h2 style="font-size:var(--text-2xl); font-weight:800; margin-bottom:var(--space-8); text-align:center;">What Readers Can Expect</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-6);">
+          <div class="card card--flat">
+            <div style="font-size:1.5rem; margin-bottom:var(--space-3)">⚙️</div>
+            <h3 style="font-size:var(--text-base); font-weight:700; margin-bottom:var(--space-2)">Operational Systems</h3>
+            <p style="font-size:var(--text-sm); color:var(--text-secondary)">How to automate routine operations, delegate effectively, and design systems that work without founder micromanagement.</p>
+          </div>
+          <div class="card card--flat">
+            <div style="font-size:1.5rem; margin-bottom:var(--space-3)">🧠</div>
+            <h3 style="font-size:var(--text-base); font-weight:700; margin-bottom:var(--space-2)">AI Product Architecture</h3>
+            <p style="font-size:var(--text-sm); color:var(--text-secondary)">Practical breakdowns on implementing custom AI pipelines, tool integrations, and real enterprise utility.</p>
+          </div>
+          <div class="card card--flat">
+            <div style="font-size:1.5rem; margin-bottom:var(--space-3)">🎬</div>
+            <h3 style="font-size:var(--text-base); font-weight:700; margin-bottom:var(--space-2)">Founder Authority</h3>
+            <p style="font-size:var(--text-sm); color:var(--text-secondary)">Frameworks on creating high-affinity content, establishing domain authority, and building inbound pipelines.</p>
+          </div>
+          <div class="card card--flat">
+            <div style="font-size:1.5rem; margin-bottom:var(--space-3)">🛡️</div>
+            <h3 style="font-size:var(--text-base); font-weight:700; margin-bottom:var(--space-2)">Resilience &amp; Security</h3>
+            <p style="font-size:var(--text-sm); color:var(--text-secondary)">Cybersecurity hygiene for startups and psychological resilience frameworks for long-term venture building.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('newsletter-page-form');
+  const alert = document.getElementById('nl-alert');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('nl-email').value.trim();
+    const name = document.getElementById('nl-name').value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert.textContent = 'Please enter a valid email address.';
+      alert.style.color = 'var(--rose)';
+      alert.style.background = '#ffe4e6';
+      alert.style.display = 'block';
+      return;
+    }
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Subscribing…';
+
+    CMS.Subscribers.add(email, name, 'newsletter_page').then(res => {
+      btn.disabled = false;
+      btn.textContent = 'Get 1% Better Every Day →';
+      if (res.ok) {
+        alert.textContent = '🎉 You are subscribed! Check your inbox for the welcome dispatch.';
+        alert.style.color = '#15803d';
+        alert.style.background = '#dcfce7';
+        alert.style.display = 'block';
+        form.reset();
+      } else {
+        alert.textContent = res.reason === 'already_subscribed' ? 'You are already registered on this list!' : (res.error || 'Subscription failed.');
+        alert.style.color = 'var(--cobalt)';
+        alert.style.background = 'var(--cobalt-light)';
+        alert.style.display = 'block';
+      }
+    }).catch(err => {
+      btn.disabled = false;
+      btn.textContent = 'Get 1% Better Every Day →';
+      alert.textContent = 'Server connection error. Please try again.';
+      alert.style.display = 'block';
+    });
+  });
+});
+</script>
+</body>
+</html>

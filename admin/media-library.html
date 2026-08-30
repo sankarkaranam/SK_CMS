@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Library | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <style>
+    .media-upload-drop {
+      border: 2px dashed var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: var(--space-10);
+      text-align: center;
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: border-color var(--duration-fast), background var(--duration-fast);
+      margin-bottom: var(--space-8);
+    }
+    .media-upload-drop:hover { border-color: var(--cobalt); background: var(--cobalt-light); }
+    .media-files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-5); }
+    .media-item-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; }
+    .media-item-thumb { height: 130px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .media-item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .media-item-info { padding: var(--space-3); font-size: 11px; }
+    .media-item-name { font-weight: 600; color: var(--text-primary); margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  </style>
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link"><span class="admin-nav-icon">✏️</span> New Post</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link active"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link"><span class="admin-nav-icon">📈</span> Analytics</a>
+      <a href="seo.html" class="admin-nav-link"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="admin-topbar-title">Media &amp; Asset Library</div>
+  </div>
+
+  <div class="admin-content">
+    <div class="media-upload-drop" id="dropzone" onclick="document.getElementById('file-input').click()">
+      <input type="file" id="file-input" style="display:none" accept="image/*" multiple>
+      <div style="font-size:2rem; margin-bottom:var(--space-2)">📁</div>
+      <div style="font-weight:700; font-size:var(--text-base); margin-bottom:var(--space-1)">Click or drag images to upload</div>
+      <div style="font-size:var(--text-xs); color:var(--text-muted)">Supports PNG, JPG, WebP, SVG (Stored in local CMS memory)</div>
+    </div>
+
+    <div class="admin-panel">
+      <div class="admin-panel-header"><div class="admin-panel-title">Asset Library</div></div>
+      <div class="admin-panel-body">
+        <div class="media-files-grid" id="media-grid">
+          <!-- Static default assets -->
+          <div class="media-item-card">
+            <div class="media-item-thumb"><img src="../assets/sankar.jpeg" alt="Sankar Headshot"></div>
+            <div class="media-item-info">
+              <div class="media-item-name">sankar.jpeg</div>
+              <button class="action-btn action-btn--view" style="width:100%; margin-top:4px;" onclick="copyPath('../assets/sankar.jpeg')">Copy Path</button>
+            </div>
+          </div>
+          <div class="media-item-card">
+            <div class="media-item-thumb"><img src="../assets/orumind-logo.svg" alt="OruMind Logo"></div>
+            <div class="media-item-info">
+              <div class="media-item-name">orumind-logo.svg</div>
+              <button class="action-btn action-btn--view" style="width:100%; margin-top:4px;" onclick="copyPath('../assets/orumind-logo.svg')">Copy Path</button>
+            </div>
+          </div>
+          <div class="media-item-card">
+            <div class="media-item-thumb"><img src="../assets/adpresence-logo.png" alt="AdPresence Logo"></div>
+            <div class="media-item-info">
+              <div class="media-item-name">adpresence-logo.png</div>
+              <button class="action-btn action-btn--view" style="width:100%; margin-top:4px;" onclick="copyPath('../assets/adpresence-logo.png')">Copy Path</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/admin/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (!AdminAuth.guard()) return;
+  document.getElementById('logout-btn').onclick = () => { AdminAuth.logout(); window.location.href = 'login.html'; };
+
+  window.copyPath = (path) => {
+    navigator.clipboard.writeText(path).then(() => {
+      const toast = document.createElement('div');
+      toast.className = 'toast toast-success';
+      toast.textContent = 'Copied path to clipboard!';
+      document.getElementById('toast-container').appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    });
+  };
+
+  const fileInput = document.getElementById('file-input');
+  fileInput.addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    const esc = CMS.utils.escapeHTML;
+    files.forEach(file => {
+      if (file.size > 1.5 * 1024 * 1024) {
+        alert(`File "${file.name}" exceeds 1.5MB limit. Please compress image before uploading.`);
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        alert(`File "${file.name}" is not a valid image format.`);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (re) => {
+        const grid = document.getElementById('media-grid');
+        const card = document.createElement('div');
+        card.className = 'media-item-card';
+        card.innerHTML = `
+          <div class="media-item-thumb"><img src="${re.target.result}" alt="${esc(file.name)}"></div>
+          <div class="media-item-info">
+            <div class="media-item-name">${esc(file.name)}</div>
+            <button class="action-btn action-btn--view" style="width:100%; margin-top:4px;" onclick="copyPath('${esc(file.name)}')">Copy Name</button>
+          </div>
+        `;
+        grid.prepend(card);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+});
+</script>
+</body>
+</html>
+

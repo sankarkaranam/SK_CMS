@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sankar Karanam â€” Founder Journal &amp; Insights</title>
+    <link>https://sankarkaranam.com/journal/</link>
+    <description>Daily actionable dispatches from serial entrepreneur Sankar Karanam on scaling companies, AI leverage, cybersecurity, and compounding growth.</description>
+    <language>en-IN</language>
+    <lastBuildDate>Sun, 30 Aug 2026 17:32:14 GMT</lastBuildDate>
+    <atom:link href="https://sankarkaranam.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title><![CDATA[The Architecture of Asymmetric Upside: Why I Build Multiple Ventures in Parallel]]></title>
+      <link>https://sankarkaranam.com/journal/asymmetric-upside-parallel-ventures.html</link>
+      <guid isPermaLink="true">https://sankarkaranam.com/journal/asymmetric-upside-parallel-ventures.html</guid>
+      <pubDate>Sun, 30 Aug 2026 17:32:14 GMT</pubDate>
+      <description><![CDATA[Conventional wisdom warns founders never to split focus. Here is the operational framework and holding structure I use to run OruMind, Creators Club, and Worke simultaneously.]]></description>
+      <category>Entrepreneurship</category>
+    </item>
+    <item>
+      <title><![CDATA[How Habit Stacking Compounds Your Growth by 1% Every Single Day]]></title>
+      <link>https://sankarkaranam.com/journal/how-habit-stacking-compounds-growth.html</link>
+      <guid isPermaLink="true">https://sankarkaranam.com/journal/how-habit-stacking-compounds-growth.html</guid>
+      <pubDate>Sun, 30 Aug 2026 04:30:00 GMT</pubDate>
+      <description><![CDATA[Most people fail at building transformative habits because they rely on willpower. Here is the friction-reducing blueprint I use to stack daily wins across health, business, and mindset.]]></description>
+      <category>1% Daily Growth</category>
+    </item>
+    <item>
+      <title><![CDATA[The Zero-BS Guide to Integrating Generative AI into Your Agency Workflow]]></title>
+      <link>https://sankarkaranam.com/journal/ai-workflows-agency-founders.html</link>
+      <guid isPermaLink="true">https://sankarkaranam.com/journal/ai-workflows-agency-founders.html</guid>
+      <pubDate>Sat, 29 Aug 2026 04:30:00 GMT</pubDate>
+      <description><![CDATA[Why 80% of businesses misuse AI as a generic copy-paster rather than an operational multiplier. How we engineer prompt-to-production pipelines at Creators Club.]]></description>
+      <category>AI & Tech</category>
+    </item>
+    <item>
+      <title><![CDATA[Zero Trust Security for Early-Stage Tech Startups: Don't Wait for a Breach]]></title>
+      <link>https://sankarkaranam.com/journal/zero-trust-security-startups.html</link>
+      <guid isPermaLink="true">https://sankarkaranam.com/journal/zero-trust-security-startups.html</guid>
+      <pubDate>Fri, 28 Aug 2026 04:30:00 GMT</pubDate>
+      <description><![CDATA[From my background in ethical hacking and leading cybersecurity initiatives at Racnas Infotech, here are the non-negotiable security postures every startup must adopt from Day 1.]]></description>
+      <category>Cybersecurity</category>
+    </item>
+    <item>
+      <title><![CDATA[From Views to Revenue: The Content Engine Framework for B2B Founders]]></title>
+      <link>https://sankarkaranam.com/journal/content-to-revenue-pipeline-b2b.html</link>
+      <guid isPermaLink="true">https://sankarkaranam.com/journal/content-to-revenue-pipeline-b2b.html</guid>
+      <pubDate>Thu, 27 Aug 2026 04:30:00 GMT</pubDate>
+      <description><![CDATA[High follower counts don't pay payroll. Discover the exact pipeline we use to turn educational video content and articles into high-ticket enterprise contracts.]]></description>
+      <category>Content Creation</category>
+    </item>
+    <item>
+      <title><![CDATA[What Shutting Down a Startup Taught Me About Relentless Founder Resilience]]></title>
+      <link>https://sankarkaranam.com/journal/startup-shutdown-founder-resilience.html</link>
+      <guid isPermaLink="true">https://sankarkaranam.com/journal/startup-shutdown-founder-resilience.html</guid>
+      <pubDate>Tue, 25 Aug 2026 04:30:00 GMT</pubDate>
+      <description><![CDATA[Navigating the COVID-19 shutdown of Freshtacular Bio was one of the hardest chapters of my entrepreneurial life. Here is the raw truth about founder psychology and building back stronger.]]></description>
+      <category>Entrepreneurship</category>
+    </item>
+  </channel>
+</rss>

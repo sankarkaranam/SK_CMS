@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article | Sankar Karanam Journal</title>
+  <meta name="robots" content="index, follow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    .article-header { padding-block: var(--space-12); border-bottom: 1px solid var(--border-subtle); background: var(--bg-surface); }
+    .article-meta-row { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4); flex-wrap: wrap; }
+    .article-title-h1 { font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl)); font-weight: 800; line-height: var(--leading-snug); margin-bottom: var(--space-4); letter-spacing: var(--tracking-tight); }
+    .article-subtitle { font-size: var(--text-lg); color: var(--text-secondary); line-height: var(--leading-relaxed); margin-bottom: var(--space-6); }
+    .article-author-mini { display: flex; align-items: center; gap: var(--space-3); }
+    .author-mini-avatar { width: 44px; height: 44px; border-radius: var(--radius-full); object-fit: cover; border: 2px solid var(--border-light); }
+  </style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="reading-progress"><div class="reading-progress-bar" id="reading-bar"></div></div>
+<main>
+  <article>
+    <header class="article-header">
+      <div class="container container--article">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <div class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Home</a><span class="breadcrumb-separator">/</span></div>
+          <div class="breadcrumb-item"><a href="index.html" class="breadcrumb-link">Journal</a><span class="breadcrumb-separator">/</span></div>
+          <div class="breadcrumb-item"><span class="breadcrumb-current" id="crumb-title">Article</span></div>
+        </nav>
+        <div class="article-meta-row">
+          <span class="badge badge--blue" id="art-category">Category</span>
+          <span style="font-size:var(--text-xs); color:var(--text-muted);" id="art-date">Date</span>
+          <span style="font-size:var(--text-xs); color:var(--text-muted);" id="art-readtime">5 min read</span>
+        </div>
+        <h1 class="article-title-h1" id="art-title">Loading Article…</h1>
+        <p class="article-subtitle" id="art-subtitle"></p>
+        <div class="article-author-mini">
+          <img src="../assets/sankar.jpeg" alt="Sankar Karanam" class="author-mini-avatar">
+          <div>
+            <strong style="font-size:var(--text-sm); display:block;">Sankar Karanam</strong>
+            <span style="font-size:var(--text-xs); color:var(--text-muted);">Founder &amp; Entrepreneur</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="section">
+      <div class="container container--article">
+        <div class="article-body" id="art-content"></div>
+
+        <!-- Social Share -->
+        <div class="social-share">
+          <span class="social-share-label">Share this insight:</span>
+          <button class="share-btn share-btn--linkedin" id="share-linkedin">💼 LinkedIn</button>
+          <button class="share-btn share-btn--x" id="share-x">𝕏 Post</button>
+          <button class="share-btn share-btn--whatsapp" id="share-whatsapp">💬 WhatsApp</button>
+          <button class="share-btn share-btn--copy" id="share-copy">🔗 Copy Link</button>
+        </div>
+
+        <!-- Claps & Reactions -->
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:var(--space-6) 0; border-bottom:1px solid var(--border-subtle); margin-bottom:var(--space-8);">
+          <button class="btn btn--secondary" id="clap-btn" style="gap:var(--space-2); font-size:var(--text-base);">
+            <span>👏</span> <span id="clap-count">0</span> Claps
+          </button>
+          <button class="btn btn--ghost" id="bookmark-btn">🔖 Bookmark</button>
+        </div>
+
+        <!-- Feedback Widget -->
+        <div class="feedback-widget">
+          <div class="feedback-question">Was this insight helpful for your building journey?</div>
+          <div class="feedback-buttons">
+            <button class="feedback-btn" id="fb-yes">👍 Yes, valuable</button>
+            <button class="feedback-btn" id="fb-no">👎 Needs more depth</button>
+          </div>
+          <div class="feedback-response" id="fb-response">Thank you for your feedback! It guides future publishing.</div>
+        </div>
+
+        <!-- Author Card -->
+        <div class="author-card" style="margin-top:var(--space-12);">
+          <img src="../assets/sankar.jpeg" alt="Sankar Karanam" class="author-avatar" width="72" height="72">
+          <div class="author-info">
+            <div class="author-name">Sankar Karanam</div>
+            <div class="author-title">Serial Entrepreneur &amp; Founder</div>
+            <p class="author-bio">Founder of OruMind, Creators Club, Worke, and AdPresence. Author of Ethical Hacking. Daily insights on entrepreneurship, AI systems, and the 1% compounding philosophy.</p>
+            <div class="author-links">
+              <a href="https://www.linkedin.com/in/sankarkaranam7/" target="_blank" rel="noopener noreferrer" class="author-link">💼 LinkedIn</a>
+              <a href="../contact/index.html" class="author-link">✉️ Message</a>
+              <a href="../about.html" class="author-link">About Sankar →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const slug = urlParams.get('slug') || window.location.pathname.split('/').pop().replace('.html','');
+  let post = typeof CMS !== 'undefined' ? CMS.Posts.bySlug(slug) : null;
+  if (!post && typeof ARTICLES_DATA !== 'undefined') {
+    const raw = ARTICLES_DATA.find(a => a.slug === slug || a.id === slug);
+    if (raw) post = CMS.Posts.save({ ...raw, publishedAt: raw.date, status: 'published' });
+  }
+
+  if (!post) {
+    document.getElementById('art-title').textContent = 'Article Not Found';
+    document.getElementById('art-content').innerHTML = '<p>The requested article could not be located. <a href="index.html">Return to Journal →</a></p>';
+    return;
+  }
+
+  document.title = `${post.title} | Sankar Karanam`;
+  document.getElementById('crumb-title').textContent = post.title.slice(0, 30) + '…';
+  document.getElementById('art-category').textContent = post.category;
+  document.getElementById('art-date').textContent = new Date(post.publishedAt).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+  document.getElementById('art-readtime').textContent = post.readTime || '5 min read';
+  document.getElementById('art-title').textContent = post.title;
+  document.getElementById('art-subtitle').textContent = post.subtitle || post.excerpt || '';
+  document.getElementById('art-content').innerHTML = post.content;
+  document.getElementById('clap-count').textContent = (post.claps || 0) + CMS.Reader.getClaps(post.id);
+
+  // Track view
+  CMS.Posts.incrementView(post.id);
+
+  // Claps
+  document.getElementById('clap-btn').addEventListener('click', () => {
+    const added = CMS.Reader.addClap(post.id);
+    document.getElementById('clap-count').textContent = (post.claps || 0) + added;
+    showToast('👏 Thanks for clapping!', 'success');
+  });
+
+  // Reading progress
+  const bar = document.getElementById('reading-bar');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    if (h > 0) bar.style.width = Math.min(100, Math.max(0, (window.scrollY / h) * 100)) + '%';
+  }, { passive: true });
+
+  // Share buttons
+  const shareUrl = window.location.href;
+  const shareTitle = post.title;
+  document.getElementById('share-linkedin').onclick = () => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`);
+  document.getElementById('share-x').onclick = () => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(shareUrl)}`);
+  document.getElementById('share-whatsapp').onclick = () => window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareTitle + ' ' + shareUrl)}`);
+  document.getElementById('share-copy').onclick = () => { navigator.clipboard.writeText(shareUrl).then(() => showToast('Link copied to clipboard!')); };
+
+  // Feedback
+  const handleFeedback = (type) => {
+    CMS.Posts.addFeedback(post.id, type);
+    document.getElementById('fb-response').classList.add('visible');
+    document.getElementById('fb-yes').disabled = true;
+    document.getElementById('fb-no').disabled = true;
+    showToast('Feedback submitted. Thank you!');
+  };
+  document.getElementById('fb-yes').onclick = () => handleFeedback('yes');
+  document.getElementById('fb-no').onclick = () => handleFeedback('no');
+});
+</script>
+</body>
+</html>

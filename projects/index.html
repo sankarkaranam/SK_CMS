@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Sankar Karanam — Portfolio of Work</title>
+  <meta name="description" content="A portfolio of projects by Sankar Karanam — from the Ethical Hacking book to Freshtacular Bio and Racnas Infotech.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sankarkaranam.com/projects/">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+    .project-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-8); display: flex; flex-direction: column; transition: box-shadow var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out); }
+    .project-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--border-light); }
+    .project-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); }
+    .project-year { font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--tracking-wider); text-transform: uppercase; color: var(--cobalt); }
+    .project-name { font-size: var(--text-lg); font-weight: 800; margin-bottom: var(--space-2); }
+    .project-role { font-size: var(--text-sm); font-weight: 600; color: var(--cobalt); margin-bottom: var(--space-4); }
+    .project-desc { font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); flex: 1; margin-bottom: var(--space-5); }
+    .project-tech { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+    .tech-tag { font-size: 10px; font-weight: 600; background: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: var(--radius-full); padding: 2px 8px; color: var(--text-muted); }
+    .project-outcome { font-size: var(--text-xs); color: var(--text-secondary); background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); border-left: 3px solid var(--cobalt); line-height: var(--leading-relaxed); }
+    @media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .projects-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<main>
+  <section class="section--sm bg-surface" style="border-bottom:1px solid var(--border-subtle)">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Home</a><span class="breadcrumb-separator">/</span></div>
+        <div class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">Projects</span></div>
+      </nav>
+      <span class="section-eyebrow">Portfolio</span>
+      <h1 class="section-title">Projects &amp; Work</h1>
+      <p class="section-subtitle">A chronological view of selected projects — books, companies, and builds across a decade of creating things that matter.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="projects-grid" id="projects-grid">
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-xl)"></div>
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-xl)"></div>
+        <div class="skeleton" style="height:360px;border-radius:var(--radius-xl)"></div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="../js/articles-data.js"></script>
+<script src="../js/cms.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof CMS === 'undefined') return;
+  const grid = document.getElementById('projects-grid');
+  const projects = CMS.Projects.all().sort((a,b) => b.year - a.year || a.order - b.order);
+  const STATUS = { completed: ['green','Completed'], active: ['blue','Active'], exited: ['slate','Exited'], building: ['amber','Building'] };
+  grid.innerHTML = projects.map(p => {
+    const [sc, sl] = STATUS[p.status] || ['slate','Unknown'];
+    return `
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-year">${p.year}</span>
+        <span class="badge badge--${sc} badge--dot">${sl}</span>
+      </div>
+      <div class="project-name">${p.name}</div>
+      <div class="project-role">${p.role} · ${p.category}</div>
+      <p class="project-desc">${p.description}</p>
+      <div class="project-tech">${(p.tech||[]).map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>
+      ${p.outcome ? `<div class="project-outcome">${p.outcome}</div>` : ''}
+    </div>`;
+  }).join('');
+});
+</script>
+</body>
+</html>
