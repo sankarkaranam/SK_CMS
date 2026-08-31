@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ideas &amp; Frameworks | Sankar Karanam</title>
+  <meta name="description" content="Sankar Karanam's core ideas, mental models, and thinking frameworks on entrepreneurship, AI systems, compounding growth, and building durable companies.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sankarkaranam.com/ideas/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ideas &amp; Frameworks | Sankar Karanam">
+  <meta property="og:description" content="Core ideas, mental models, and thinking frameworks on entrepreneurship, AI, and compounding growth.">
+  <meta property="og:url" content="https://sankarkaranam.com/ideas/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ideas &amp; Frameworks | Sankar Karanam">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    .ideas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--space-6); }
+    .idea-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-2xl); padding: var(--space-8); display: flex; flex-direction: column; transition: box-shadow var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out); cursor: pointer; }
+    .idea-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: var(--border-light); }
+    .idea-card:hover .idea-title { color: var(--cobalt); }
+    .idea-emoji { font-size: 2.5rem; margin-bottom: var(--space-4); display: block; line-height: 1; }
+    .idea-title { font-size: var(--text-lg); font-weight: 800; color: var(--text-primary); margin-bottom: var(--space-3); line-height: var(--leading-snug); transition: color var(--duration-fast); }
+    .idea-summary { font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); flex: 1; margin-bottom: var(--space-5); }
+    .idea-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .idea-tag { font-size: var(--text-xs); font-weight: 600; color: var(--cobalt); background: var(--cobalt-light); padding: 3px 10px; border-radius: var(--radius-full); }
+    .ideas-empty { text-align: center; padding: var(--space-20) var(--space-6); }
+    .ideas-empty h2 { font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-3); }
+    .ideas-empty p { color: var(--text-secondary); max-width: 48ch; margin-inline: auto; line-height: var(--leading-relaxed); }
+    .ideas-skeleton { background: var(--bg-tertiary); border-radius: var(--radius-2xl); }
+  </style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<header class="site-header" id="site-header" role="banner">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-brand" aria-label="Sankar Karanam - Home">
+      <span class="nav-brand-logo">SANKAR KARANAM</span>
+    </a>
+    <nav class="nav-desktop" aria-label="Main navigation">
+      <div class="nav-links" role="menubar">
+        <a href="../about.html" class="nav-link">About</a>
+        <a href="../journal/index.html" class="nav-link">Journal</a>
+        <a href="../ideas/index.html" class="nav-link active">Ideas</a>
+        <a href="../ventures/index.html" class="nav-link">Ventures</a>
+        <a href="../journey/index.html" class="nav-link">Journey</a>
+        <a href="../media/index.html" class="nav-link">Media</a>
+      </div>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-search-btn" id="search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <a href="../contact/index.html" class="nav-cta">
+        <span>Let's Connect</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="nav-mobile" id="nav-mobile" role="menu" aria-label="Mobile navigation">
+  <div class="nav-mobile-links">
+    <a href="../about.html" class="nav-mobile-link">About</a>
+    <a href="../journal/index.html" class="nav-mobile-link">Journal</a>
+    <a href="../ideas/index.html" class="nav-mobile-link active">Ideas</a>
+    <a href="../ventures/index.html" class="nav-mobile-link">Ventures</a>
+    <a href="../journey/index.html" class="nav-mobile-link">Journey</a>
+    <a href="../media/index.html" class="nav-mobile-link">Media</a>
+    <a href="../newsletter/index.html" class="nav-mobile-link">Newsletter</a>
+  </div>
+  <a href="../contact/index.html" class="nav-mobile-cta">Let's Connect &rarr;</a>
+</div>
+<main>
+  <section class="section--sm bg-surface" style="border-bottom:1px solid var(--border-subtle)">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Home</a><span class="breadcrumb-separator">/</span></div>
+        <div class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">Ideas</span></div>
+      </nav>
+      <span class="section-eyebrow">Thinking &amp; Frameworks</span>
+      <h1 class="section-title">Ideas &amp; Mental Models</h1>
+      <p class="section-subtitle">Core frameworks, mental models, and philosophies that guide how I think about building companies, creating leverage, and compounding growth over time.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="ideas-grid" id="ideas-grid">
+        <div class="skeleton ideas-skeleton" style="height:220px;"></div>
+        <div class="skeleton ideas-skeleton" style="height:220px;"></div>
+        <div class="skeleton ideas-skeleton" style="height:220px;"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/cms.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+(async function () {
+  const grid = document.getElementById('ideas-grid');
+
+  try {
+    const res = await fetch('/api/ideas');
+    const ideas = res.ok ? await res.json() : [];
+
+    if (!ideas || ideas.length === 0) {
+      grid.innerHTML = `
+        <div class="ideas-empty" style="grid-column:1/-1">
+          <div style="font-size:3rem; margin-bottom:1rem;">&#128161;</div>
+          <h2>Ideas Coming Soon</h2>
+          <p>Frameworks and mental models are being documented. Check back soon, or subscribe to the newsletter to get them first.</p>
+          <div style="margin-top:1.5rem;">
+            <a href="../newsletter/index.html" class="btn btn--primary">Subscribe to the Newsletter &rarr;</a>
+          </div>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = ideas.filter(i => i.status === 'published').map(idea => `
+      <article class="idea-card" onclick="location.href='${idea.slug}.html'">
+        <span class="idea-emoji">${idea.emoji || '&#128161;'}</span>
+        <h2 class="idea-title">${escStr(idea.title)}</h2>
+        <p class="idea-summary">${escStr(idea.summary)}</p>
+        ${idea.tags && idea.tags.length ? `<div class="idea-tags">${idea.tags.map(t=>`<span class="idea-tag">${escStr(t)}</span>`).join('')}</div>` : ''}
+      </article>
+    `).join('');
+  } catch(e) {
+    grid.innerHTML = `<div class="ideas-empty" style="grid-column:1/-1"><p>Unable to load ideas. Please try again later.</p></div>`;
+  }
+
+  function escStr(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+</script>
+</body>
+</html>

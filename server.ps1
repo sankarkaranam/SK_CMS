@@ -180,9 +180,46 @@ function Generate-Static-Article ($post, $db) {
 <body>
 <div class="bg-grid" aria-hidden="true"></div>
 <div class="reading-progress"><div class="reading-progress-bar" id="reading-bar"></div></div>
+<header class="site-header" id="site-header" role="banner">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-brand" aria-label="$founderName - Home"><span class="nav-brand-logo">SANKAR KARANAM</span></a>
+    <nav class="nav-desktop" aria-label="Main navigation">
+      <div class="nav-links" role="menubar">
+        <a href="../about.html" class="nav-link">About</a>
+        <a href="../journal/index.html" class="nav-link active">Journal</a>
+        <a href="../ideas/index.html" class="nav-link">Ideas</a>
+        <a href="../ventures/index.html" class="nav-link">Ventures</a>
+        <a href="../journey/index.html" class="nav-link">Journey</a>
+        <a href="../media/index.html" class="nav-link">Media</a>
+      </div>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-search-btn" id="search-trigger" aria-label="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <a href="../contact/index.html" class="nav-cta"><span>Let's Connect</span></a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="nav-mobile" id="nav-mobile" role="menu" aria-label="Mobile navigation">
+  <div class="nav-mobile-links">
+    <a href="../about.html" class="nav-mobile-link">About</a>
+    <a href="../journal/index.html" class="nav-mobile-link active">Journal</a>
+    <a href="../ideas/index.html" class="nav-mobile-link">Ideas</a>
+    <a href="../ventures/index.html" class="nav-mobile-link">Ventures</a>
+    <a href="../journey/index.html" class="nav-mobile-link">Journey</a>
+    <a href="../media/index.html" class="nav-mobile-link">Media</a>
+    <a href="../newsletter/index.html" class="nav-mobile-link">Newsletter</a>
+  </div>
+  <a href="../contact/index.html" class="nav-mobile-cta">Let's Connect &rarr;</a>
+</div>
 <main>
   <article>
     <header class="article-header">
+
       <div class="container container--article">
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <div class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Home</a><span class="breadcrumb-separator">/</span></div>
@@ -301,6 +338,118 @@ document.addEventListener('DOMContentLoaded', () => {
     [System.IO.File]::WriteAllText($targetFile, $html, [System.Text.Encoding]::UTF8)
 }
 
+# Static Site Generation for Idea pages
+function Generate-Static-Idea ($idea, $db) {
+    $ideasDir = Join-Path $baseDir "ideas"
+    if (-not (Test-Path $ideasDir)) { New-Item -ItemType Directory -Path $ideasDir -Force | Out-Null }
+    $slug = $idea.slug
+    $targetFile = Join-Path $ideasDir "$slug.html"
+    $settings = $db.settings
+    $founderName = if ($settings.founderName) { $settings.founderName } else { "Sankar Karanam" }
+    $title = [System.Security.SecurityElement]::Escape($idea.title)
+    $summary = [System.Security.SecurityElement]::Escape($idea.summary)
+    $emoji = if ($idea.emoji) { $idea.emoji } else { "&#128161;" }
+    $description = if ($idea.description) { $idea.description } else { $idea.summary }
+    $tags = if ($idea.tags) { ($idea.tags | ForEach-Object { "<span class='idea-tag'>$_</span>" }) -join '' } else { '' }
+    $principles = if ($idea.principles -and $idea.principles.Count -gt 0) {
+        "<ul class='principles-list'>" + ($idea.principles | ForEach-Object { "<li>$_</li>" }) -join '' + "</ul>"
+    } else { '' }
+    $html = @"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>$title | $founderName</title>
+  <meta name="description" content="$summary">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sankarkaranam.com/ideas/$slug.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="$title">
+  <meta property="og:description" content="$summary">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    .idea-hero { padding-block: var(--space-16); border-bottom: 1px solid var(--border-subtle); background: var(--bg-surface); }
+    .idea-emoji-hero { font-size: 4rem; display: block; margin-bottom: var(--space-4); }
+    .idea-h1 { font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl)); font-weight: 800; line-height: var(--leading-snug); margin-bottom: var(--space-4); letter-spacing: var(--tracking-tight); }
+    .idea-summary-hero { font-size: var(--text-lg); color: var(--text-secondary); line-height: var(--leading-relaxed); max-width: 60ch; }
+    .idea-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+    .idea-tag { font-size: var(--text-xs); font-weight: 600; color: var(--cobalt); background: var(--cobalt-light); padding: 3px 10px; border-radius: var(--radius-full); }
+    .principles-list { margin-top: var(--space-4); padding-left: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+    .principles-list li { font-size: var(--text-base); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  </style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<header class="site-header" id="site-header" role="banner">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-brand" aria-label="$founderName - Home"><span class="nav-brand-logo">SANKAR KARANAM</span></a>
+    <nav class="nav-desktop" aria-label="Main navigation">
+      <div class="nav-links" role="menubar">
+        <a href="../about.html" class="nav-link">About</a>
+        <a href="../journal/index.html" class="nav-link">Journal</a>
+        <a href="../ideas/index.html" class="nav-link active">Ideas</a>
+        <a href="../ventures/index.html" class="nav-link">Ventures</a>
+        <a href="../journey/index.html" class="nav-link">Journey</a>
+        <a href="../media/index.html" class="nav-link">Media</a>
+      </div>
+    </nav>
+    <div class="nav-actions">
+      <a href="../contact/index.html" class="nav-cta"><span>Let's Connect</span></a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="nav-mobile" id="nav-mobile" role="menu">
+  <div class="nav-mobile-links">
+    <a href="../about.html" class="nav-mobile-link">About</a>
+    <a href="../journal/index.html" class="nav-mobile-link">Journal</a>
+    <a href="index.html" class="nav-mobile-link active">Ideas</a>
+    <a href="../ventures/index.html" class="nav-mobile-link">Ventures</a>
+    <a href="../journey/index.html" class="nav-mobile-link">Journey</a>
+    <a href="../media/index.html" class="nav-mobile-link">Media</a>
+    <a href="../newsletter/index.html" class="nav-mobile-link">Newsletter</a>
+  </div>
+  <a href="../contact/index.html" class="nav-mobile-cta">Let's Connect &rarr;</a>
+</div>
+<main>
+  <section class="idea-hero">
+    <div class="container container--article">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="breadcrumb-item"><a href="../index.html" class="breadcrumb-link">Home</a><span class="breadcrumb-separator">/</span></div>
+        <div class="breadcrumb-item"><a href="index.html" class="breadcrumb-link">Ideas</a><span class="breadcrumb-separator">/</span></div>
+        <div class="breadcrumb-item"><span class="breadcrumb-current">$title</span></div>
+      </nav>
+      <span class="idea-emoji-hero">$emoji</span>
+      <h1 class="idea-h1">$title</h1>
+      <p class="idea-summary-hero">$summary</p>
+      <div class="idea-tags">$tags</div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container container--article">
+      <div class="article-body">
+        $description
+        $principles
+      </div>
+      <div style="margin-top:var(--space-12); padding-top:var(--space-8); border-top:1px solid var(--border-subtle);">
+        <a href="index.html" class="btn btn--secondary">&larr; All Ideas</a>
+        <a href="../journal/index.html" class="btn btn--ghost" style="margin-left:var(--space-3);">Read the Journal &rarr;</a>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="../js/cms.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>
+"@
+    [System.IO.File]::WriteAllText($targetFile, $html, [System.Text.Encoding]::UTF8)
+}
+
 function Regenerate-Sitemap-And-RSS ($db) {
     $nowDate = (Get-Date).ToString("yyyy-MM-dd")
     
@@ -312,16 +461,26 @@ function Regenerate-Sitemap-And-RSS ($db) {
   <url><loc>https://sankarkaranam.com/about.html</loc><lastmod>$nowDate</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://sankarkaranam.com/journal/index.html</loc><lastmod>$nowDate</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://sankarkaranam.com/ventures/index.html</loc><lastmod>$nowDate</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://sankarkaranam.com/ideas/index.html</loc><lastmod>$nowDate</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://sankarkaranam.com/journey/index.html</loc><lastmod>$nowDate</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://sankarkaranam.com/projects/index.html</loc><lastmod>$nowDate</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://sankarkaranam.com/media/index.html</loc><lastmod>$nowDate</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://sankarkaranam.com/newsletter/index.html</loc><lastmod>$nowDate</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://sankarkaranam.com/contact/index.html</loc><lastmod>$nowDate</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://sankarkaranam.com/cookies.html</loc><lastmod>$nowDate</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://sankarkaranam.com/privacy.html</loc><lastmod>$nowDate</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 "@
     $pubPosts = $db.posts | Where-Object { $_.status -eq 'published' }
     foreach ($p in $pubPosts) {
         $pDate = if ($p.publishedAt) { (Get-Date $p.publishedAt).ToString("yyyy-MM-dd") } else { $nowDate }
         $sitemapXml += "`n  <url><loc>https://sankarkaranam.com/journal/$($p.slug).html</loc><lastmod>$pDate</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>"
+    }
+    # Add idea pages to sitemap
+    if ($db.ideas) {
+        $pubIdeas = $db.ideas | Where-Object { $_.status -eq 'published' }
+        foreach ($i in $pubIdeas) {
+            $iDate = if ($i.publishedAt) { (Get-Date $i.publishedAt).ToString("yyyy-MM-dd") } else { $nowDate }
+            $sitemapXml += "`n  <url><loc>https://sankarkaranam.com/ideas/$($i.slug).html</loc><lastmod>$iDate</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>"
+        }
     }
     $sitemapXml += "`n</urlset>`n"
     [System.IO.File]::WriteAllText((Join-Path $baseDir "sitemap.xml"), $sitemapXml, [System.Text.Encoding]::UTF8)
@@ -360,6 +519,11 @@ function Regenerate-Sitemap-And-RSS ($db) {
 $initialDb = Get-DB
 foreach ($p in ($initialDb.posts | Where-Object { $_.status -eq 'published' })) {
     Generate-Static-Article $p $initialDb
+}
+if ($initialDb.ideas) {
+    foreach ($i in ($initialDb.ideas | Where-Object { $_.status -eq 'published' })) {
+        Generate-Static-Idea $i $initialDb
+    }
 }
 Regenerate-Sitemap-And-RSS $initialDb
 
@@ -753,7 +917,97 @@ while ($listener.IsListening) {
                 continue
             }
 
-            # --- CONTACT: Public Submission Ingestion ---
+            # --- IDEAS: GET (Public) / POST / PUT / DELETE (Auth required) ---
+            if ($path -eq "/api/ideas" -and $method -eq "GET") {
+                $session = Validate-Auth $req $db
+                if ($session) {
+                    Send-JSON $res $db.ideas
+                } else {
+                    if (-not $db.ideas) { $db.ideas = @() }
+                    $pub = @($db.ideas | Where-Object { $_.status -eq "published" })
+                    Send-JSON $res $pub
+                }
+                continue
+            }
+            if ($path -eq "/api/ideas" -and $method -eq "POST") {
+                $session = Validate-Auth $req $db
+                if (-not $session) { Send-Error $res "Unauthorized" 401; continue }
+
+                $ideaSlug = if ($body.slug) { $body.slug.ToLower().Replace(" ", "-") } else { $body.title.ToLower() -replace '[^a-z0-9]+', '-' -replace '^-|-$', '' }
+                $newIdea = @{
+                    id          = "idea_" + [Guid]::NewGuid().ToString("N").Substring(0, 8)
+                    title       = $body.title
+                    slug        = $ideaSlug
+                    summary     = $body.summary
+                    description = $body.description
+                    emoji       = if ($body.emoji) { $body.emoji } else { "💡" }
+                    tags        = if ($body.tags) { @($body.tags) } else { @() }
+                    principles  = if ($body.principles) { @($body.principles) } else { @() }
+                    status      = if ($body.status) { $body.status } else { "published" }
+                    createdAt   = (Get-Date).ToUniversalTime().ToString("o")
+                    updatedAt   = (Get-Date).ToUniversalTime().ToString("o")
+                    publishedAt = (Get-Date).ToUniversalTime().ToString("o")
+                }
+                if (-not $db.ideas) { $db.ideas = @() }
+                $db.ideas = @($newIdea) + $db.ideas
+                Save-DB $db
+
+                if ($newIdea.status -eq "published") {
+                    Generate-Static-Idea $newIdea $db
+                    Regenerate-Sitemap-And-RSS $db
+                }
+                Send-JSON $res $newIdea 201
+                continue
+            }
+            if ($path -match "^/api/ideas/([a-zA-Z0-9_-]+)$" -and $method -eq "GET") {
+                $idOrSlug = $matches[1]
+                if (-not $db.ideas) { $db.ideas = @() }
+                $idea = $db.ideas | Where-Object { $_.id -eq $idOrSlug -or $_.slug -eq $idOrSlug }
+                if ($idea) { Send-JSON $res $idea } else { Send-Error $res "Idea not found" 404 }
+                continue
+            }
+            if ($path -match "^/api/ideas/([a-zA-Z0-9_-]+)$" -and $method -eq "PUT") {
+                $session = Validate-Auth $req $db
+                if (-not $session) { Send-Error $res "Unauthorized" 401; continue }
+                $id = $matches[1]
+                if (-not $db.ideas) { $db.ideas = @() }
+                $idea = $db.ideas | Where-Object { $_.id -eq $id }
+                if (-not $idea) { Send-Error $res "Idea not found" 404; continue }
+                if ($body.title)       { $idea.title = $body.title }
+                if ($body.summary)     { $idea.summary = $body.summary }
+                if ($body.description) { $idea.description = $body.description }
+                if ($body.emoji)       { $idea.emoji = $body.emoji }
+                if ($body.tags)        { $idea.tags = @($body.tags) }
+                if ($body.principles)  { $idea.principles = @($body.principles) }
+                if ($body.status)      { $idea.status = $body.status }
+                $idea.updatedAt = (Get-Date).ToUniversalTime().ToString("o")
+                Save-DB $db
+                if ($idea.status -eq "published") {
+                    Generate-Static-Idea $idea $db
+                    Regenerate-Sitemap-And-RSS $db
+                }
+                Send-JSON $res $idea
+                continue
+            }
+            if ($path -match "^/api/ideas/([a-zA-Z0-9_-]+)$" -and $method -eq "DELETE") {
+                $session = Validate-Auth $req $db
+                if (-not $session) { Send-Error $res "Unauthorized" 401; continue }
+                $id = $matches[1]
+                if (-not $db.ideas) { $db.ideas = @() }
+                $target = $db.ideas | Where-Object { $_.id -eq $id }
+                if ($target) {
+                    $ideasDir = Join-Path $baseDir "ideas"
+                    $slugFile = Join-Path $ideasDir "$($target.slug).html"
+                    if (Test-Path $slugFile) { Remove-Item $slugFile -Force }
+                }
+                $db.ideas = @($db.ideas | Where-Object { $_.id -ne $id })
+                Save-DB $db
+                Regenerate-Sitemap-And-RSS $db
+                Send-JSON $res @{ ok = $true; message = "Idea deleted" }
+                continue
+            }
+
+
             if ($path -eq "/api/contact" -and $method -eq "POST") {
                 $name = if ($body.name) { $body.name.ToString().Trim() } else { "" }
                 $email = if ($body.email) { $body.email.ToString().Trim() } else { "" }
@@ -905,6 +1159,24 @@ while ($listener.IsListening) {
                 $session = Validate-Auth $req $db
                 if (-not $session) { Send-Error $res "Unauthorized" 401; continue }
                 Send-JSON $res $db.analytics
+                continue
+            }
+
+            # --- FEEDBACK: Public Article Feedback ---
+            if ($path -eq "/api/feedback" -and $method -eq "POST") {
+                $page = if ($body.page) { $body.page.ToString() } else { "/" }
+                $helpful = if ($body.helpful -ne $null) { [bool]$body.helpful } else { $true }
+                $feedbackItem = @{
+                    id = "fb_" + [Guid]::NewGuid().ToString("N").Substring(0, 8)
+                    page = $page
+                    helpful = $helpful
+                    ip = $req.RemoteEndPoint.Address.ToString()
+                    submittedAt = (Get-Date).ToUniversalTime().ToString("o")
+                }
+                if (-not $db.feedback) { $db.feedback = @() }
+                $db.feedback += $feedbackItem
+                Save-DB $db
+                Send-JSON $res @{ ok = $true; message = "Feedback recorded" } 201
                 continue
             }
 

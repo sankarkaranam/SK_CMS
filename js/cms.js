@@ -11,6 +11,7 @@ const CMS = (() => {
   // In-memory cache
   const cache = {
     posts: null,
+    ideas: null,
     ventures: null,
     journey: null,
     projects: null,
@@ -399,11 +400,74 @@ const CMS = (() => {
     }
   };
 
+  /* ══════════════════════════════════════════════════════
+     IDEAS API
+  ══════════════════════════════════════════════════════ */
+  const Ideas = {
+    async fetchAll() {
+      try {
+        const res = await fetch(`${API_BASE}/ideas`, { headers: headers(true) });
+        if (res.ok) {
+          cache.ideas = await res.json();
+          localStorage.setItem('sk_cached_ideas', JSON.stringify(cache.ideas));
+          return cache.ideas;
+        }
+      } catch (e) {}
+      try { cache.ideas = JSON.parse(localStorage.getItem('sk_cached_ideas') || '[]'); } catch { cache.ideas = []; }
+      return cache.ideas;
+    },
+
+    all() {
+      if (cache.ideas) return cache.ideas;
+      try { return JSON.parse(localStorage.getItem('sk_cached_ideas') || '[]'); } catch { return []; }
+    },
+
+    published() {
+      return (Ideas.all() || []).filter(i => i.status === 'published').sort((a, b) => new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt));
+    },
+
+    get(id) {
+      return (Ideas.all() || []).find(i => i.id === id || i.slug === id) || null;
+    },
+
+    async save(idea) {
+      const isNew = !idea.id || idea.id.startsWith('temp_');
+      const url = isNew ? `${API_BASE}/ideas` : `${API_BASE}/ideas/${idea.id}`;
+      const method = isNew ? 'POST' : 'PUT';
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: headers(true),
+          body: JSON.stringify(idea)
+        });
+        if (res.ok) {
+          await Ideas.fetchAll();
+          return await res.json();
+        }
+      } catch (e) {}
+    },
+
+    async delete(id) {
+      try {
+        const res = await fetch(`${API_BASE}/ideas/${id}`, {
+          method: 'DELETE',
+          headers: headers(true)
+        });
+        if (res.ok) {
+          await Ideas.fetchAll();
+          return true;
+        }
+      } catch (e) {}
+      return false;
+    }
+  };
+
   // Auto-fetch data on initialization
-  Promise.all([Posts.fetchAll(), Ventures.fetchAll(), Journey.fetchAll(), Settings.fetch()]).catch(() => {});
+  Promise.all([Posts.fetchAll(), Ideas.fetchAll(), Ventures.fetchAll(), Journey.fetchAll(), Settings.fetch()]).catch(() => {});
 
   return {
     Posts,
+    Ideas,
     Ventures,
     Journey,
     Contacts,

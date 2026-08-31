@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Ideas &amp; Frameworks | Sankar Karanam Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+        if (!s || Date.now() > s.expiresAt) { window.location.replace('login.html'); }
+      } catch(e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="admin-body">
+
+<div class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <a href="../index.html" class="admin-brand" target="_blank">
+      <img src="../assets/sankar.jpeg" alt="Sankar" class="admin-brand-avatar">
+      <div class="admin-brand-text">
+        <span class="admin-brand-name">Sankar Karanam</span>
+        <span class="admin-brand-role">Founder CMS</span>
+      </div>
+    </a>
+  </div>
+  <nav class="admin-nav">
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Content</div>
+      <a href="index.html" class="admin-nav-link"><span class="admin-nav-icon">📊</span> Dashboard</a>
+      <a href="posts.html" class="admin-nav-link"><span class="admin-nav-icon">📝</span> Posts</a>
+      <a href="editor.html" class="admin-nav-link"><span class="admin-nav-icon">✏️</span> New Post</a>
+      <a href="ideas.html" class="admin-nav-link active"><span class="admin-nav-icon">💡</span> Ideas</a>
+      <a href="ventures.html" class="admin-nav-link"><span class="admin-nav-icon">🏢</span> Ventures</a>
+      <a href="journey.html" class="admin-nav-link"><span class="admin-nav-icon">🗓️</span> Journey</a>
+      <a href="media-library.html" class="admin-nav-link"><span class="admin-nav-icon">🖼️</span> Media Library</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Audience</div>
+      <a href="newsletter.html" class="admin-nav-link"><span class="admin-nav-icon">✉️</span> Newsletter</a>
+      <a href="contacts.html" class="admin-nav-link"><span class="admin-nav-icon">📩</span> Contact Inbox</a>
+    </div>
+    <div class="admin-nav-section">
+      <div class="admin-nav-section-title">Settings</div>
+      <a href="analytics.html" class="admin-nav-link"><span class="admin-nav-icon">📈</span> Analytics</a>
+      <a href="seo.html" class="admin-nav-link"><span class="admin-nav-icon">🔍</span> SEO Settings</a>
+      <a href="settings.html" class="admin-nav-link"><span class="admin-nav-icon">⚙️</span> Site Settings</a>
+    </div>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" id="logout-btn"><span>🚪</span> Sign Out</button>
+  </div>
+</div>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="admin-topbar-title">Ideas &amp; Frameworks</div>
+    <div class="admin-topbar-actions">
+      <button class="btn btn--primary btn--sm" id="new-idea-btn">+ New Idea</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <div class="admin-card" style="margin-bottom:var(--space-6);">
+      <p style="color:var(--text-secondary);font-size:var(--text-sm);">
+        Create and publish frameworks, mental models, and intellectual concepts. Published ideas are automatically generated as static pages at <strong>/ideas/[slug].html</strong> and added to the sitemap.
+      </p>
+    </div>
+
+    <div class="admin-table-container">
+      <div id="ideas-list">
+        <div style="text-align:center;padding:var(--space-12);color:var(--text-muted);">
+          Loading ideas&hellip;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for New / Edit Idea -->
+<div class="modal-overlay" id="idea-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;padding:var(--space-4);">
+  <div class="modal-card" style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-2xl);box-shadow:var(--shadow-2xl);width:100%;max-width:640px;max-height:90vh;overflow-y:auto;padding:var(--space-8);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);">
+      <h2 id="idea-modal-title" style="font-size:var(--text-xl);font-weight:800;">New Idea</h2>
+      <button id="close-idea-modal" style="background:transparent;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">&times;</button>
+    </div>
+    <form id="idea-form">
+      <div class="form-group" style="margin-bottom:var(--space-4);">
+        <label class="form-label" for="idea-emoji">Emoji Icon</label>
+        <input type="text" id="idea-emoji" class="form-input" placeholder="💡" value="💡" maxlength="4" style="width:100px;">
+      </div>
+      <div class="form-group" style="margin-bottom:var(--space-4);">
+        <label class="form-label" for="idea-title">Title <span style="color:var(--rose)">*</span></label>
+        <input type="text" id="idea-title" class="form-input" placeholder="e.g. The 1% Compounding Philosophy" required>
+      </div>
+      <div class="form-group" style="margin-bottom:var(--space-4);">
+        <label class="form-label" for="idea-slug">Slug</label>
+        <input type="text" id="idea-slug" class="form-input" placeholder="auto-generated from title">
+      </div>
+      <div class="form-group" style="margin-bottom:var(--space-4);">
+        <label class="form-label" for="idea-summary">Summary (1-2 sentences) <span style="color:var(--rose)">*</span></label>
+        <textarea id="idea-summary" class="form-input" rows="2" placeholder="A concise summary of this idea or framework" required style="resize:vertical;"></textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:var(--space-4);">
+        <label class="form-label" for="idea-description">Full Explanation (HTML allowed)</label>
+        <textarea id="idea-description" class="form-input" rows="6" placeholder="Full explanation of the idea or framework..." style="resize:vertical; font-family:var(--font-mono); font-size:0.85rem;"></textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:var(--space-4);">
+        <label class="form-label" for="idea-principles">Key Principles (one per line)</label>
+        <textarea id="idea-principles" class="form-input" rows="3" placeholder="Consistency beats intensity&#10;Systems outlast motivation&#10;Small gains compound exponentially" style="resize:vertical;"></textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:var(--space-4);">
+        <label class="form-label" for="idea-tags">Tags (comma-separated)</label>
+        <input type="text" id="idea-tags" class="form-input" placeholder="growth, compounding, strategy">
+      </div>
+      <div class="form-group" style="margin-bottom:var(--space-6);">
+        <label class="form-label" for="idea-status">Status</label>
+        <select id="idea-status" class="form-select">
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:var(--space-3);justify-content:flex-end;">
+        <button type="button" class="btn btn--ghost" id="cancel-idea-btn">Cancel</button>
+        <button type="submit" class="btn btn--primary" id="idea-submit-btn">Publish Idea</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../js/cms.js"></script>
+<script>
+(async () => {
+  const session = JSON.parse(localStorage.getItem('sk_admin_session') || 'null');
+  if (!session || !session.token) { window.location.href = 'login.html'; return; }
+
+  let ideas = [];
+  let editingId = null;
+
+  async function loadIdeas() {
+    try {
+      const r = await fetch('/api/ideas', { headers: { 'Authorization': 'Bearer ' + session.token } });
+      ideas = r.ok ? (await r.json()) : [];
+    } catch(e) { ideas = []; }
+    renderIdeas();
+  }
+
+  function renderIdeas() {
+    const list = document.getElementById('ideas-list');
+    if (!ideas || ideas.length === 0) {
+      list.innerHTML = `
+        <div style="text-align:center;padding:var(--space-12);color:var(--text-muted);">
+          <div style="font-size:2.5rem;margin-bottom:var(--space-3);">&#128161;</div>
+          <p style="font-size:var(--text-base);font-weight:600;color:var(--text-secondary);margin-bottom:var(--space-2);">No ideas created yet</p>
+          <p style="font-size:var(--text-sm);margin-bottom:var(--space-6);">Create your first framework or mental model to share your thinking.</p>
+          <button class="btn btn--primary btn--sm" onclick="openModal(true)">+ Create First Idea</button>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = `
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Idea</th>
+            <th>Summary</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${ideas.map(idea => `
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:var(--space-3);">
+                  <span style="font-size:1.5rem;">${idea.emoji || '💡'}</span>
+                  <div>
+                    <strong>${esc(idea.title)}</strong>
+                    <div style="font-size:var(--text-xs);color:var(--text-muted);">/ideas/${esc(idea.slug)}.html</div>
+                  </div>
+                </div>
+              </td>
+              <td style="max-width:280px;font-size:var(--text-sm);color:var(--text-secondary);">${esc(idea.summary)}</td>
+              <td><span class="badge badge--${idea.status === 'published' ? 'green' : 'slate'}">${idea.status}</span></td>
+              <td>
+                <div style="display:flex;gap:var(--space-2);align-items:center;">
+                  <button class="btn btn--ghost btn--sm" onclick="editIdea('${idea.id}')">Edit</button>
+                  <button class="btn btn--ghost btn--sm" style="color:var(--rose);" onclick="deleteIdea('${idea.id}','${esc(idea.title)}')">Delete</button>
+                  ${idea.status === 'published' ? `<a href="/ideas/${idea.slug}.html" target="_blank" class="btn btn--ghost btn--sm" style="color:var(--cobalt);">View &rarr;</a>` : ''}
+                </div>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+
+  window.openModal = function(reset = true) {
+    if (reset) {
+      editingId = null;
+      document.getElementById('idea-modal-title').textContent = 'New Idea';
+      document.getElementById('idea-form').reset();
+      document.getElementById('idea-emoji').value = '💡';
+      document.getElementById('idea-status').value = 'published';
+      document.getElementById('idea-submit-btn').textContent = 'Publish Idea';
+    }
+    document.getElementById('idea-modal').style.display = 'flex';
+    document.getElementById('idea-title').focus();
+  };
+
+  function closeModal() {
+    document.getElementById('idea-modal').style.display = 'none';
+    editingId = null;
+  }
+
+  window.editIdea = function(id) {
+    const idea = ideas.find(i => i.id === id);
+    if (!idea) return;
+    editingId = id;
+    document.getElementById('idea-modal-title').textContent = 'Edit Idea';
+    document.getElementById('idea-emoji').value = idea.emoji || '💡';
+    document.getElementById('idea-title').value = idea.title || '';
+    document.getElementById('idea-slug').value = idea.slug || '';
+    document.getElementById('idea-summary').value = idea.summary || '';
+    document.getElementById('idea-description').value = idea.description || '';
+    document.getElementById('idea-principles').value = (idea.principles || []).join('\n');
+    document.getElementById('idea-tags').value = (idea.tags || []).join(', ');
+    document.getElementById('idea-status').value = idea.status || 'published';
+    document.getElementById('idea-submit-btn').textContent = 'Update Idea';
+    openModal(false);
+  };
+
+  window.deleteIdea = async function(id, title) {
+    if (!confirm('Delete "' + title + '"? This will remove its public page.')) return;
+    try {
+      const r = await fetch('/api/ideas/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + session.token } });
+      if (r.ok) { await loadIdeas(); alert('Idea deleted.'); }
+      else { alert('Delete failed.'); }
+    } catch(e) { alert('Network error.'); }
+  };
+
+  document.getElementById('new-idea-btn').addEventListener('click', () => openModal(true));
+  document.getElementById('close-idea-modal').addEventListener('click', closeModal);
+  document.getElementById('cancel-idea-btn').addEventListener('click', closeModal);
+  document.getElementById('idea-modal').addEventListener('click', e => { if (e.target === document.getElementById('idea-modal')) closeModal(); });
+
+  document.getElementById('idea-title').addEventListener('input', function() {
+    if (!editingId) {
+      document.getElementById('idea-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+  });
+
+  document.getElementById('idea-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const title = document.getElementById('idea-title').value.trim();
+    const summary = document.getElementById('idea-summary').value.trim();
+    if (!title || !summary) { alert('Title and summary are required.'); return; }
+
+    const data = {
+      emoji: document.getElementById('idea-emoji').value.trim() || '💡',
+      title,
+      slug: document.getElementById('idea-slug').value.trim(),
+      summary,
+      description: document.getElementById('idea-description').value.trim(),
+      principles: document.getElementById('idea-principles').value.split('\n').map(p => p.trim()).filter(Boolean),
+      tags: document.getElementById('idea-tags').value.split(',').map(t => t.trim()).filter(Boolean),
+      status: document.getElementById('idea-status').value
+    };
+
+    const url = editingId ? '/api/ideas/' + editingId : '/api/ideas';
+    const method = editingId ? 'PUT' : 'POST';
+
+    try {
+      const r = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.token },
+        body: JSON.stringify(data)
+      });
+      if (r.ok) {
+        closeModal();
+        await loadIdeas();
+      } else {
+        const err = await r.json();
+        alert(err.error || 'Save failed.');
+      }
+    } catch(e) { alert('Network error.'); }
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    try { await fetch('/api/auth/logout', { method: 'POST', headers: { 'Authorization': 'Bearer ' + session.token } }); } catch(e){}
+    localStorage.removeItem('sk_admin_session');
+    window.location.href = 'login.html';
+  });
+
+  function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  loadIdeas();
+})();
+</script>
+</body>
+</html>

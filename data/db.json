@@ -6,7 +6,7 @@
                       "email":  "sankarkaranam7@gmail.com",
                       "name":  "Sankar Karanam",
                       "role":  "admin",
-                      "passwordHash":  "O8Y3CGh8eMhNRbzYM8XRtB+ZPQb7BT7TlBLrwN0r7rQ=",
+                      "passwordHash":  "CocMesnhrSybZJulvzESmvnn6jRIZzKFgwP9CFYDj4E=",
                       "salt":  "random_salt_123",
                       "createdAt":  "2026-08-30T12:00:00.000Z"
                   }
@@ -39,6 +39,20 @@
                          "userId":  "usr_sankar_admin",
                          "token":  "AE2QucHX7ypGlYA1qxYi2D043dbbh-IU9BhUa_q6ZcE",
                          "role":  "admin"
+                     },
+                     {
+                         "createdAt":  "2026-08-31T04:46:39.2308214Z",
+                         "expiresAt":  "2026-08-31T12:46:39.2145239Z",
+                         "userId":  "usr_sankar_admin",
+                         "token":  "3ZytL0qDBMoRB_c-cGgJPIFE4Repfz_pNLllnHAenP8",
+                         "role":  "admin"
+                     },
+                     {
+                         "createdAt":  "2026-08-31T04:47:58.0239572Z",
+                         "expiresAt":  "2026-08-31T12:47:58.0055538Z",
+                         "userId":  "usr_sankar_admin",
+                         "token":  "lYyUuZJHey8_CPq-41lsAAhqUIgzE73U6LJFBCQyv_E",
+                         "role":  "admin"
                      }
                  ],
     "posts":  [
@@ -55,7 +69,7 @@
                       "publishedAt":  "2026-08-30T17:32:14.6754126Z",
                       "status":  "published",
                       "canonical":  "https://sankarkaranam.com/journal/asymmetric-upside-parallel-ventures.html",
-                      "claps":  0,
+                      "claps":  1,
                       "seoTitle":  "The Architecture of Asymmetric Upside | Sankar Karanam",
                       "excerpt":  "Conventional wisdom warns founders never to split focus. Here is the operational framework and holding structure I use to run OruMind, Creators Club, and Worke simultaneously.",
                       "tags":  [
@@ -396,6 +410,28 @@
                 ],
     "contacts":  [
                      {
+                         "message":  "Discussing joint venture scaling.",
+                         "read":  false,
+                         "id":  "msg_e34eb9e5",
+                         "ip":  "::1",
+                         "name":  "Sarah Chen",
+                         "company":  "",
+                         "reason":  "Partnership",
+                         "submittedAt":  "2026-08-31T04:47:58.3753448Z",
+                         "email":  "sarah@techpartners.io"
+                     },
+                     {
+                         "message":  "Automated verification test of contact submission.",
+                         "read":  false,
+                         "id":  "msg_e8e0733f",
+                         "ip":  "::1",
+                         "name":  "Verification Tester",
+                         "company":  "QA Testing Inc",
+                         "reason":  "Partnership",
+                         "submittedAt":  "2026-08-31T04:46:45.0995313Z",
+                         "email":  "test@example.com"
+                     },
+                     {
                          "message":  "Hello Sankar, we would love to discuss a potential strategic partnership regarding OruMind.",
                          "read":  false,
                          "id":  "msg_80ec9173",
@@ -415,6 +451,22 @@
                             "active":  true,
                             "email":  "elena.rostova@techgrowth.com",
                             "subscribedAt":  "2026-08-30T17:32:14.5224946Z"
+                        },
+                        {
+                            "id":  "sub_ad105e69",
+                            "name":  "Test Subscriber",
+                            "source":  "automated_test",
+                            "active":  true,
+                            "email":  "test_sub_965381552@example.com",
+                            "subscribedAt":  "2026-08-31T04:46:45.2098016Z"
+                        },
+                        {
+                            "id":  "sub_11f69e94",
+                            "name":  "Founder Alex",
+                            "source":  "home_test",
+                            "active":  true,
+                            "email":  "builder_360149330@foundergroup.co",
+                            "subscribedAt":  "2026-08-31T04:47:58.4229008Z"
                         }
                     ],
     "settings":  {
@@ -451,5 +503,8 @@
                       "events":  [
 
                                  ]
-                  }
+                  },
+    "ideas":  [
+
+              ]
 }

@@ -6,11 +6,12 @@
 (function () {
   /* ── Config ── */
   const NAV_ITEMS = [
-    { label: 'Daily Insights', href: '/journal/index.html',  key: 'journal' },
-    { label: 'Ventures',       href: '/ventures/index.html', key: 'ventures' },
-    { label: 'Journey',        href: '/journey/index.html',  key: 'journey' },
-    { label: '1% Calculator',  href: '/index.html#calculator', key: '#calculator' },
-    { label: 'Newsletter',     href: '/newsletter/index.html', key: 'newsletter' },
+    { label: 'About',          href: '/about.html',            key: 'about' },
+    { label: 'Journal',        href: '/journal/index.html',    key: 'journal' },
+    { label: 'Ideas',          href: '/ideas/index.html',      key: 'ideas' },
+    { label: 'Ventures',       href: '/ventures/index.html',   key: 'ventures' },
+    { label: 'Journey',        href: '/journey/index.html',    key: 'journey' },
+    { label: 'Media',          href: '/media/index.html',      key: 'media' },
   ];
 
   function getRoot() {
@@ -135,6 +136,7 @@
                 <a href="${root}index.html" class="footer-link">Home</a>
                 <a href="${root}about.html" class="footer-link">About</a>
                 <a href="${root}journal/index.html" class="footer-link">Journal</a>
+                <a href="${root}ideas/index.html" class="footer-link">Ideas</a>
                 <a href="${root}ventures/index.html" class="footer-link">Ventures</a>
                 <a href="${root}journey/index.html" class="footer-link">Journey</a>
               </div>
@@ -142,7 +144,6 @@
             <div>
               <div class="footer-col-title">Explore</div>
               <div class="footer-links">
-                <a href="${root}projects/index.html" class="footer-link">Projects</a>
                 <a href="${root}media/index.html" class="footer-link">Media</a>
                 <a href="${root}newsletter/index.html" class="footer-link">Newsletter</a>
                 <a href="${root}contact/index.html" class="footer-link">Contact</a>
@@ -163,6 +164,7 @@
             <div class="footer-legal">
               <a href="${root}privacy.html" class="footer-legal-link">Privacy Policy</a>
               <a href="${root}terms.html" class="footer-legal-link">Terms of Use</a>
+              <a href="${root}cookies.html" class="footer-legal-link">Cookies</a>
               <a href="${root}sitemap.xml" class="footer-legal-link">Sitemap</a>
             </div>
           </div>
@@ -245,21 +247,27 @@
       const results = [];
       const escape = typeof CMS !== 'undefined' ? CMS.utils.escapeHTML : (s) => s;
       if (typeof CMS !== 'undefined') {
-        CMS.Posts.published().forEach(p => {
-          if (p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q) || (p.category||'').toLowerCase().includes(q)) {
-            results.push({ type: 'Article', title: escape(p.title), excerpt: escape(p.excerpt), href: `${root}journal/${p.slug}.html` });
-          }
-        });
-        CMS.Ventures.active().forEach(v => {
-          if (v.name.toLowerCase().includes(q) || (v.description||'').toLowerCase().includes(q)) {
-            results.push({ type: 'Venture', title: escape(v.name), excerpt: escape(v.description), href: `${root}ventures/index.html` });
-          }
-        });
-        CMS.Projects.all().forEach(pr => {
-          if (pr.name.toLowerCase().includes(q) || (pr.description||'').toLowerCase().includes(q)) {
-            results.push({ type: 'Project', title: escape(pr.name), excerpt: escape(pr.description), href: `${root}projects/index.html` });
-          }
-        });
+        if (CMS.Posts && typeof CMS.Posts.published === 'function') {
+          CMS.Posts.published().forEach(p => {
+            if (p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q) || (p.category||'').toLowerCase().includes(q)) {
+              results.push({ type: 'Article', title: escape(p.title), excerpt: escape(p.excerpt), href: `${root}journal/${p.slug}.html` });
+            }
+          });
+        }
+        if (CMS.Ideas && typeof CMS.Ideas.published === 'function') {
+          CMS.Ideas.published().forEach(i => {
+            if (i.title.toLowerCase().includes(q) || (i.summary||'').toLowerCase().includes(q)) {
+              results.push({ type: 'Idea', title: escape(i.title), excerpt: escape(i.summary), href: `${root}ideas/${i.slug}.html` });
+            }
+          });
+        }
+        if (CMS.Ventures && typeof CMS.Ventures.active === 'function') {
+          CMS.Ventures.active().forEach(v => {
+            if (v.name.toLowerCase().includes(q) || (v.description||'').toLowerCase().includes(q)) {
+              results.push({ type: 'Venture', title: escape(v.name), excerpt: escape(v.description), href: `${root}ventures/index.html` });
+            }
+          });
+        }
       }
       if (results.length === 0) {
         searchResults.innerHTML = `<p class="search-no-results">No results for "<strong>${escape(q)}</strong>"</p>`;
