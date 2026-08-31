@@ -271,6 +271,16 @@
       }
     });
 
+    /* ── Scroll Spy for Glass Island Docking ── */
+    const nav = document.getElementById('site-nav');
+    const updateNavScroll = () => {
+      if (nav) {
+        nav.classList.toggle('scrolled', window.scrollY > 20);
+      }
+    };
+    window.addEventListener('scroll', updateNavScroll, { passive: true });
+    updateNavScroll();
+
     /* ── Analytics ── */
     if (typeof CMS !== 'undefined') {
       CMS.Analytics.trackPageView(window.location.pathname);
