@@ -55,16 +55,19 @@
       <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
         <div class="nav-inner">
           <a href="${root}index.html" class="nav-brand" aria-label="Sankar Karanam - Home">
-            <img src="${root}${avatar}" alt="Sankar Karanam" class="nav-brand-avatar" width="36" height="36">
-            <span class="nav-brand-name">Sankar Karanam</span>
+            <span class="nav-brand-logo">SANKAR KARANAM</span>
           </a>
 
           <div class="nav-links" role="menubar">
             ${links}
-            <button class="btn btn--icon btn--ghost" id="search-trigger" aria-label="Search" title="Search (Ctrl+K)" style="margin-left:4px">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <button class="nav-search-btn" id="search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             </button>
-            <a href="${root}contact/index.html" class="nav-cta">Let's Connect</a>
+            <span class="nav-divider" aria-hidden="true"></span>
+            <a href="${root}contact/index.html" class="nav-cta-pill">
+              <span>Let's Talk</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
           </div>
 
           <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -84,7 +87,7 @@
             Search
           </button>
         </div>
-        <a href="${root}contact/index.html" class="nav-mobile-cta">Let's Connect →</a>
+        <a href="${root}contact/index.html" class="nav-mobile-cta">Let's Talk →</a>
       </div>
 
       <!-- Search Modal -->
