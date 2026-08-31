@@ -6,14 +6,11 @@
 (function () {
   /* ── Config ── */
   const NAV_ITEMS = [
-    { label: 'Home',       href: '/index.html',            key: '/' },
-    { label: 'About',      href: '/about.html',            key: '/about' },
-    { label: 'Journal',    href: '/journal/index.html',    key: '/journal' },
-    { label: 'Ventures',   href: '/ventures/index.html',   key: '/ventures' },
-    { label: 'Journey',    href: '/journey/index.html',    key: '/journey' },
-    { label: 'Projects',   href: '/projects/index.html',   key: '/projects' },
-    { label: 'Media',      href: '/media/index.html',      key: '/media' },
-    { label: 'Contact',    href: '/contact/index.html',    key: '/contact' },
+    { label: 'Daily Insights', href: '/journal/index.html',  key: 'journal' },
+    { label: 'Ventures',       href: '/ventures/index.html', key: 'ventures' },
+    { label: 'Journey',        href: '/journey/index.html',  key: 'journey' },
+    { label: '1% Calculator',  href: '/index.html#calculator', key: '#calculator' },
+    { label: 'Newsletter',     href: '/newsletter/index.html', key: 'newsletter' },
   ];
 
   function getRoot() {
@@ -35,7 +32,8 @@
     if (key === '/') {
       return path === '/' || path === '/index.html' || (path.endsWith('/index.html') && !path.includes('/journal') && !path.includes('/ventures') && !path.includes('/about') && !path.includes('/journey') && !path.includes('/projects') && !path.includes('/media') && !path.includes('/contact'));
     }
-    return path.includes(key.replace('/', ''));
+    if (key === '#calculator') return false;
+    return path.includes(key);
   }
 
   function buildNav() {
@@ -50,33 +48,36 @@
     const root = getRoot();
 
     return `
-      <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
-        <div class="nav-inner">
+      <header class="site-header" id="site-header" role="banner">
+        <div class="nav-container">
           <a href="${root}index.html" class="nav-brand" aria-label="Sankar Karanam - Home">
             <span class="nav-brand-logo">SANKAR KARANAM</span>
           </a>
 
-          <div class="nav-links" role="menubar">
-            ${links}
+          <nav class="nav-desktop" aria-label="Main navigation">
+            <div class="nav-links" role="menubar">
+              ${links}
+            </div>
+          </nav>
+
+          <div class="nav-actions">
             <button class="nav-search-btn" id="search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             </button>
-            <span class="nav-divider" aria-hidden="true"></span>
-            <a href="${root}contact/index.html" class="nav-cta-pill">
-              <span>Let's Talk</span>
+            <a href="${root}contact/index.html" class="nav-cta">
+              <span>Let's Connect</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+              <span class="nav-toggle-bar"></span>
+              <span class="nav-toggle-bar"></span>
+              <span class="nav-toggle-bar"></span>
+            </button>
           </div>
-
-          <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <span class="nav-toggle-bar"></span>
-            <span class="nav-toggle-bar"></span>
-            <span class="nav-toggle-bar"></span>
-          </button>
         </div>
-      </nav>
+      </header>
 
-      <!-- Mobile Nav -->
+      <!-- Mobile Nav Drawer -->
       <div class="nav-mobile" id="nav-mobile" role="menu">
         <div class="nav-mobile-links">
           ${mobileLinks}
@@ -85,7 +86,7 @@
             Search
           </button>
         </div>
-        <a href="${root}contact/index.html" class="nav-mobile-cta">Let's Talk →</a>
+        <a href="${root}contact/index.html" class="nav-mobile-cta">Let's Connect →</a>
       </div>
 
       <!-- Search Modal -->
@@ -170,30 +171,36 @@
     `;
   }
 
-  /* ── Inject ── */
+  /* ── Inject & Hydrate ── */
   function init() {
-    if (document.getElementById('site-nav')) return;
+    let header = document.getElementById('site-header');
+    if (!header) {
+      // Inject header structure if not present in static HTML
+      const fragment = document.createRange().createContextualFragment(buildNav());
+      document.body.insertBefore(fragment, document.body.firstChild);
+      header = document.getElementById('site-header');
+    }
 
-    // Inject header structure in natural order
-    const fragment = document.createRange().createContextualFragment(buildNav());
-    document.body.insertBefore(fragment, document.body.firstChild);
+    // Inject footer if not already present
+    if (!document.querySelector('.site-footer')) {
+      const footerFragment = document.createRange().createContextualFragment(buildFooter());
+      document.body.appendChild(footerFragment);
+    }
 
-    // Inject footer
-    const footerFragment = document.createRange().createContextualFragment(buildFooter());
-    document.body.appendChild(footerFragment);
-
-    /* ── Scroll Behaviour ── */
-    const nav = document.getElementById('site-nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) nav?.classList.add('scrolled');
-      else nav?.classList.remove('scrolled');
-    }, { passive: true });
+    /* ── Sticky Scroll Behaviour ── */
+    const updateHeaderScroll = () => {
+      if (header) {
+        header.classList.toggle('scrolled', window.scrollY > 10);
+      }
+    };
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+    updateHeaderScroll();
 
     /* ── Mobile Toggle ── */
     const toggle = document.getElementById('nav-toggle');
     const mobileNav = document.getElementById('nav-mobile');
     toggle?.addEventListener('click', () => {
-      const open = mobileNav.classList.toggle('open');
+      const open = mobileNav?.classList.toggle('open');
       toggle.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', open);
       document.body.style.overflow = open ? 'hidden' : '';

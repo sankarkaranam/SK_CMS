@@ -19,9 +19,45 @@
     .journey-stat-value { font-size: var(--text-2xl); font-weight: 800; font-family: var(--font-display); color: var(--text-primary); }
     @media (max-width: 900px) { .journey-main-grid { grid-template-columns: 1fr; } .journey-stat-card { position: static; } }
   </style>
-</head>
 <body>
 <div class="bg-grid" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     HEADER & NAVIGATION
+══════════════════════════════════════════════════════════ -->
+<header class="site-header" id="site-header" role="banner">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-brand" aria-label="Sankar Karanam - Home">
+      <span class="nav-brand-logo">SANKAR KARANAM</span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="Main navigation">
+      <div class="nav-links" role="menubar">
+        <a href="../journal/index.html" class="nav-link">Daily Insights</a>
+        <a href="../ventures/index.html" class="nav-link">Ventures</a>
+        <a href="../journey/index.html" class="nav-link active">Journey</a>
+        <a href="../index.html#calculator" class="nav-link">1% Calculator</a>
+        <a href="../newsletter/index.html" class="nav-link">Newsletter</a>
+      </div>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="nav-search-btn" id="search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <a href="../contact/index.html" class="nav-cta">
+        <span>Let's Connect</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
 <main>
   <section class="journey-hero section--sm">
     <div class="container">
