@@ -47,8 +47,6 @@
       <a href="${resolveHref(item.href)}" class="nav-mobile-link${isActive(item.key) ? ' active' : ''}">${item.label}</a>
     `).join('');
 
-    const settings = typeof CMS !== 'undefined' ? CMS.Settings.get() : {};
-    const avatar = settings.founderImage || 'assets/sankar.jpeg';
     const root = getRoot();
 
     return `
@@ -110,7 +108,7 @@
   }
 
   function buildFooter() {
-    const settings = typeof CMS !== 'undefined' ? CMS.Settings.get() : {};
+    const settings = (typeof CMS !== 'undefined' && CMS.Settings && typeof CMS.Settings.get === 'function') ? CMS.Settings.get() : {};
     const root = getRoot();
     const year = new Date().getFullYear();
     const socials = [
